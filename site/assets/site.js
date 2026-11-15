@@ -33,7 +33,7 @@
     var target=d.querySelector(g.dataset.filters), btns=g.querySelectorAll('button');
     btns.forEach(function(b){b.addEventListener('click',function(){
       btns.forEach(function(x){x.setAttribute('aria-pressed',x===b)});
-      target.querySelectorAll('[data-cat]').forEach(function(c){c.hidden=b.dataset.f!=='all'&&c.dataset.cat!==b.dataset.f});
+      target.querySelectorAll('[data-cat]').forEach(function(c){c.hidden=b.dataset.f!=='all'&&c.dataset.cat.split(' ').indexOf(b.dataset.f)<0});
     })});
   });
 

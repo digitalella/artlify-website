@@ -2,7 +2,7 @@
 """Static site generator for Artlify.  python3 build.py [netlify|preview]"""
 import os, sys, json, shutil, hashlib, html
 from urllib.parse import quote
-from content import SITE, SERVICES, AUDIENCES, PROCESS, WHY, ENGAGEMENTS, IMPACT, FAQS, AUTHOR, CATEGORIES
+from content import SITE, SERVICES, AUDIENCES, PROCESS, WHY, ENGAGEMENTS, IMPACT, FAQS, AUTHOR, CATEGORIES, PROJECTS, PROJ, HIGHLIGHTS, TESTIMONIALS, LOGOS
 
 MODE = sys.argv[1] if len(sys.argv) > 1 else "netlify"
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -222,10 +222,6 @@ def faq_html(faqs):
 def stats_html():
     return "".join(f'<div class="stat rv d{i}"><div class="v">{v}</div><div class="lb">{E(l)}</div></div>' for i, (v, l) in enumerate(IMPACT))
 
-def testimonials_html():
-    one = '<div class="tc rv"><span class="q" aria-hidden="true">“</span><p>[Insert verified client testimonial here, with permission.]</p><div class="who"><span class="av"></span><div style="flex:1"><div class="ln" style="width:60%"></div><div class="ln" style="width:38%;margin-top:8px"></div></div></div></div>'
-    return one * 3
-
 def band(p, h, btn="Work With Us", url="/work-with-us/"):
     return f'<section class="s dark" style="padding:clamp(60px,8vw,100px) 0"><div class="wrap band"><h2 class="rv">{h}</h2><a href="{p.href(url)}" class="btn b-le rv d1" style="border-color:var(--lemon)">{btn} <span class="arr">→</span></a></div></section>'
 
@@ -233,6 +229,72 @@ def phero(p, eyebrow, h1, leads, crumbs, decos=(6, 3, 7)):
     d = "".join(f'<span class="deco z{i+1}" aria-hidden="true">{shape(p, n)}</span>' for i, n in enumerate(decos))
     ls = "".join(f'<p class="lead rv d2">{l}</p>' for l in leads)
     return f'<section class="ph">{d}<div class="wrap">{crumbs_html(p, crumbs)}<span class="pill rv"><i></i>{eyebrow}</span><h1 class="rv d1">{h1}</h1>{ls}</div></section>'
+
+
+# =================================================================== PROOF
+_WI = {}
+def wimg(p, name, alt, cls="", eager=False, sizes="(max-width: 900px) 100vw, 50vw"):
+    if name not in _WI:
+        _WI[name] = _I.open(os.path.join(ROOT, f"src/assets/img/work/{name}.webp")).size
+    w, h = _WI[name]
+    return (f'<img class="{cls}" src="{p.asset(f"img/work/{name}.webp")}" width="{w}" height="{h}" alt="{E(alt)}" '
+            f'{"fetchpriority=\"high\"" if eager else "loading=\"lazy\""} decoding="async" sizes="{sizes}">')
+
+ALT = {"bella-shopify": "Bella Books Shopify dashboard showing NGN 123.77M in total sales, up 118%",
+       "bella-before": "Bella Books Instagram profile before: 43K followers",
+       "bella-after": "Bella Books Instagram profile after: 86.2K followers",
+       "bella-reel": "Instagram insights for a Bella Books campaign reel with 323,872 views",
+       "onyi-meta-ads": "Meta Ads Manager results for Onyi Africa campaigns, with ROAS up to 20.08",
+       "onyi-shopify": "Onyi Africa Shopify dashboard showing $20,663.15 in total sales from 162 orders",
+       "onyi-omnisend": "Omnisend dashboard for Onyi Africa: $4,314.49 revenue, 85% from automations",
+       "onyi-before": "Onyi Africa Instagram profile at 300 followers",
+       "onyi-after": "Onyi Africa Instagram profile at 5,105 followers",
+       "onyi-content": "Onyi Africa Instagram content grid",
+       "sarah-after": "Coach for Success Instagram profile at 1,087 followers",
+       "marlo-before": "Marlo Pets Instagram profile at 1,604 followers",
+       "marlo-after": "Marlo Pets Instagram profile at 3,440 followers",
+       "marlo-content": "Marlo Pets Instagram content grid",
+       "cookery-content": "Let's Get Cookery illustrated Instagram content grid",
+       "logo-coach-for-success": "Coach for Success logo"}
+
+def stats_chips(stats):
+    return "".join(f'<div class="pst"><b>{E(v)}</b><span>{E(l)}</span></div>' for v, l in stats)
+
+def highlight_html(p, s):
+    if s["slug"] not in HIGHLIGHTS: return ""
+    slug, angle, imgs, idx = HIGHLIGHTS[s["slug"]]
+    pr = PROJ[slug]
+    pics = "".join(f'<figure>{wimg(p, n, ALT.get(n, pr["name"]))}{"<figcaption>" + ("Before" if i == 0 else "After") + "</figcaption>" if len(imgs) == 2 and "before" in imgs[0] else ""}</figure>' for i, n in enumerate(imgs))
+    one = " one" if len(imgs) == 1 else ""
+    return f'''<section class="s hlp-wrap"><div class="wrap hlp">
+<div class="hlp-txt"><span class="eyebrow rv">Project highlight</span>
+<h2 class="rv d1">{E(pr["name"])}</h2><p class="kind rv d1">{E(pr["kind"])} · {E(pr["tag"])}</p>
+<p class="lead rv d2">{E(angle)}</p>
+<div class="pstats rv d2">{stats_chips([pr["stats"][i] for i in idx if i < len(pr["stats"])])}</div>
+<div class="cta-row rv d3"><a href="{p.href("/work/#" + slug)}" class="btn b-ink">Read the case study <span class="arr">&rarr;</span></a></div></div>
+<div class="hlp-img{one} rv d2">{pics}</div>
+</div></section>'''
+
+def stars():
+    return '<span class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>'
+
+def testimonials_html(n=3):
+    return "".join(f'<figure class="tc real rv d{i % 3}">{stars()}<blockquote><p>&ldquo;{E(q)}&rdquo;</p></blockquote><figcaption><b>Verified client review</b><span>{E(w)}</span></figcaption></figure>'
+                   for i, (q, w) in enumerate(TESTIMONIALS[:n]))
+
+def logos_html(p):
+    tiles = "".join(f'<li class="lg">{wimg(p, n, a + " logo", sizes="200px")}</li>' for n, a in LOGOS)
+    return f'<div class="logos-wrap"><p class="eyebrow">Trusted by brands like</p><ul class="logos">{tiles}</ul></div>'
+
+def case_card(p, pr, i):
+    bg = COL[pr["color"]][0]
+    gal = "".join(f'<li>{wimg(p, n, ALT.get(n, pr["name"]), sizes="160px")}</li>' for n in pr["gallery"] if not n.startswith("logo"))
+    st = f'<div class="pstats">{stats_chips(pr["stats"])}</div>' if pr["stats"] else ""
+    return f'''<article class="case rv" id="{pr["slug"]}" data-cat="{pr["cats"]}">
+<div class="case-cv" style="--bg:{bg}">{wimg(p, pr["cover"], ALT.get(pr["cover"], pr["name"]), sizes="(max-width: 900px) 100vw, 45vw")}</div>
+<div class="case-bd"><span class="tag">{E(pr["tag"])}</span><h2>{E(pr["name"])}</h2><p class="kind">{E(pr["kind"])}</p>
+<dl><dt>The challenge</dt><dd>{E(pr["challenge"])}</dd><dt>What we did</dt><dd>{E(pr["did"])}</dd></dl>
+{st}{f'<ul class="gal">{gal}</ul>' if gal else ""}</div></article>'''
 
 # =================================================================== HOME
 def home(p):
@@ -316,8 +378,9 @@ def home(p):
 </div></section>
 
 <section class="s" style="background:var(--lpeach)"><div class="wrap">
-<div class="sec-head"><div><span class="eyebrow rv">Client love</span><h2 class="rv d1">In their words.</h2></div><p class="lead rv d2">We value the relationships behind the results as much as the results themselves.</p></div>
-<div class="tg">{testimonials_html()}</div>
+<div class="sec-head"><div><span class="eyebrow rv">Client love</span><h2 class="rv d1">In their words.</h2></div><p class="lead rv d2">Real reviews from the coaches and brands we work with, all rated 5 stars.</p></div>
+<div class="tg">{testimonials_html(3)}</div>
+{logos_html(p)}
 </div></section>
 
 <section class="s impact"><div class="wrap">
@@ -392,6 +455,7 @@ def service_page(s):
 <div><span class="eyebrow rv">Overview</span><h2 class="rv d1" style="margin-top:18px">{E(s["name"])}, the <span class="c-or">Artlify</span> way.</h2></div>
 <div class="txt rv d2">{intro}{tags}</div>
 </div></section>
+{highlight_html(p, s)}
 <section class="s" style="background:var(--cream2)"><div class="wrap sv-body">
 <div><span class="eyebrow rv">Who it’s for</span><h2 class="rv d1" style="margin-top:18px">Made for brands ready to grow.</h2></div>
 <div class="txt rv d2"><ul class="prose" style="font-size:18px">{audience}</ul><p>Every {E(s["name"].lower())} engagement is personalised — we shape the scope, channels and deliverables around your business, never a fixed template.</p></div>
@@ -440,33 +504,22 @@ def about(p):
 ''' + band(p, 'Let’s build something <span class="c-le">people remember.</span>')
 
 # =================================================================== WORK
-REAL_CASES = {
-    0: ("Coach of Success", "A coach",
-        "She wasn't attracting qualified leads, and her social media account wasn't set up to turn followers into clients.",
-        "Built her content strategy and content pillars, then a full marketing funnel: ad creative direction, a sales landing page, lead nurturing and the email copy that leads to conversion.",
-        "She landed her first five clients for her $5,000 coaching programme."),
-}
-def case_body(i):
-    if i in REAL_CASES:
-        name, who, ch, did, res = REAL_CASES[i]
-        return (f'<h3>{E(name)}</h3><dl><dt>Client</dt><dd>{E(who)}</dd><dt>Challenge</dt><dd>{E(ch)}</dd><dt>What we did</dt><dd>{E(did)}</dd>'
-                f'<dt>Results</dt><dd>{E(res)}</dd></dl>')
-    return ('<h3>[Client / brand name]</h3><dl><dt>Challenge</dt><dd class="phx">[What the client needed]</dd><dt>What we did</dt>'
-            '<dd class="phx">[Services and work delivered]</dd><dt>Results</dt><dd class="phx">[Verified results, with permission]</dd></dl>')
-
 def work(p):
-    cases = [("funnels", "Content & Funnels", "orange", 2), ("ads", "Paid Ads", "teal", 6), ("content", "Content", "lemon", 7),
-             ("funnels", "Funnels & Automation", "sage", 8), ("social", "Social Media", "peach", 3), ("strategy", "Strategy", "gold", 5)]
-    cards = "".join(f'''<article class="card rv" data-cat="{k}"><div class="cv" style="--bg:{COL[c][0]}"><span class="tag">{E(n)}</span>{shape(p, sh, cls="shape")}<span class="g"{' style="color:var(--cream)"' if COL[c][1] else ""}>0{i+1}</span></div>
-<div class="bd">{case_body(i)}</div></article>''' for i, (k, n, c, sh) in enumerate(cases))
+    cards = "".join(case_card(p, pr, i) for i, pr in enumerate(PROJECTS))
+    allq = "".join(f'<figure class="tc real rv d{i % 3}">{stars()}<blockquote><p>&ldquo;{E(q)}&rdquo;</p></blockquote><figcaption><b>Verified client review</b><span>{E(w)}</span></figcaption></figure>' for i, (q, w) in enumerate(TESTIMONIALS))
     return phero(p, "Our work", 'Marketing that <span class="c-or">moves the needle.</span>',
-                 ["Selected projects across social media, content, paid ads, funnels and automation for coaches and growing brands."],
+                 ["Real projects across strategy, social media, content, paid ads, funnels and automation, with the numbers to show for it."],
                  [("Home", "/"), ("Work", "/work/")], decos=(7, 3, 6)) + f'''
 <section class="s" style="padding-top:10px"><div class="wrap">
-<div class="filters" data-filters="#cases" role="group" aria-label="Filter case studies"><button class="fbtn" data-f="all" aria-pressed="true">All work</button><button class="fbtn" data-f="social" aria-pressed="false">Social Media</button><button class="fbtn" data-f="ads" aria-pressed="false">Paid Ads</button><button class="fbtn" data-f="content" aria-pressed="false">Content</button><button class="fbtn" data-f="funnels" aria-pressed="false">Funnels</button><button class="fbtn" data-f="strategy" aria-pressed="false">Strategy</button></div>
-<div class="cards" id="cases">{cards}</div>
+<div class="filters" data-filters="#cases" role="group" aria-label="Filter case studies"><button class="fbtn" data-f="all" aria-pressed="true">All work</button><button class="fbtn" data-f="strategy" aria-pressed="false">Strategy</button><button class="fbtn" data-f="social" aria-pressed="false">Social Media</button><button class="fbtn" data-f="content" aria-pressed="false">Content</button><button class="fbtn" data-f="ads" aria-pressed="false">Paid Ads</button><button class="fbtn" data-f="funnels" aria-pressed="false">Funnels</button></div>
+<div class="cases" id="cases">{cards}</div>
+{logos_html(p)}
 </div></section>
 <section class="s impact"><div class="wrap"><div class="sec-head"><div><span class="eyebrow rv" style="color:var(--cream)">Our impact</span><h2 class="rv d1">Results that <span class="c-le">speak.</span></h2></div></div><div class="stats">{stats_html()}</div></div></section>
+<section class="s" style="background:var(--lpeach)"><div class="wrap">
+<div class="sec-head"><div><span class="eyebrow rv">Client love</span><h2 class="rv d1">In their words.</h2></div><p class="lead rv d2">Every review below is a verified 5-star client review.</p></div>
+<div class="tg">{allq}</div>
+</div></section>
 ''' + band(p, 'Your brand could be <span class="c-le">next.</span>')
 
 # =================================================================== BLOG
@@ -612,7 +665,7 @@ def post_page(b):
 {toc}
 <div class="prose">{prose}</div>
 {faqs}
-<aside class="author-box"><span class="av" aria-hidden="true">{E(AUTHOR["name"][0])}</span><div><span class="eyebrow">Written by</span><h2>{E(AUTHOR["name"])}</h2><p class="role">{E(AUTHOR["role"])}</p><p>{E(AUTHOR["bio"])}</p></div></aside>
+<aside class="author-box"><span class="av">{wimg(p, "founder", AUTHOR["name"], sizes="72px")}</span><div><span class="eyebrow">Written by</span><h2>{E(AUTHOR["name"])}</h2><p class="role">{E(AUTHOR["role"])}</p><p>{E(AUTHOR["bio"])}</p></div></aside>
 <aside class="post-cta"><h2>Want this done for you?</h2><p>Artlify plans and runs marketing for coaches and growing brands.</p><p class="svc-links">{svcs}</p><a href="{p.href("/work-with-us/")}" class="btn b-le" style="border-color:var(--ink)">Work With Us <span class="arr">&rarr;</span></a></aside>
 </div></article></section>
 <section class="s" style="padding-top:0"><div class="wrap"><div class="sec-head"><div><span class="eyebrow">Keep reading</span><h2 style="margin-top:14px">More from the blog</h2></div><a href="{p.href(curl(c))}" class="btn">All {E(c["short"])} Articles <span class="arr">&rarr;</span></a></div><div class="related">{rel}</div></div></section>'''

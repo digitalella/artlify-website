@@ -174,10 +174,10 @@ ENGAGEMENTS = [
 ]
 
 IMPACT = [
-    ("00+", "Brands and coaches supported"),
-    ("0M+", "Impressions generated for clients"),
-    ("00+", "Campaigns and launches delivered"),
-    ("00%", "Clients who stay on retainer"),
+    ("$500K+", "Revenue generated for the brands we've worked with"),
+    ("2×", "Bella Books' Instagram audience, 43K to 86.2K"),
+    ("20×", "Return on ad spend on our top Meta campaigns"),
+    ("5.0★", "Rating across our client reviews"),
 ]
 
 FAQS = [
@@ -228,3 +228,63 @@ CATEGORIES = [
          intro="How to turn attention into sales on autopilot: sales funnels, lead magnets, landing pages, email and WhatsApp flows, and the automation tools that tie them together.",
          services=["funnel-building", "marketing-automation"]),
 ]
+
+# ---------------------------------------------------------------- PROOF (from the founder's portfolio, numbers as shown in the screenshots)
+PROJECTS = [
+    dict(slug="bella-books", name="Bella Books", kind="E-commerce bookstore", tag="Full marketing system", color="gold",
+         cats="strategy social ads", cover="bella-shopify",
+         challenge="Sales were stalling. The brand had limited visibility, ads that weren't converting, a WooCommerce store with weak tracking, generic offers and an underused email list.",
+         did="We repositioned the brand, restructured offers and pricing, moved the store to Shopify with Meta Pixel tracking and set up Omnisend email. Then we ran Meta ad campaigns, brand campaigns and a full email system.",
+         stats=[("₦123.77M", "in sales, Dec 2025 to May 2026"), ("+118%", "sales on the previous period"), ("2×", "Instagram followers, 43K to 86.2K")],
+         gallery=["bella-before", "bella-after", "bella-reel"]),
+    dict(slug="onyi-africa", name="Onyi Africa", kind="Our in-house fashion brand", tag="Content, Meta ads & email", color="orange",
+         cats="content ads", cover="onyi-meta-ads",
+         challenge="We started from zero: no brand recognition, no marketing system and no funnel. We built Onyi Africa ourselves to prove our playbook with our own money first.",
+         did="We defined exactly who the brand is for, then built one system across content, social, ads, email and Shopify, where content feeds ads, ads feed email, and email drives repeat sales.",
+         stats=[("Up to 20×", "ROAS on top Meta campaigns (Meta-reported)"), ("$20.6K", "in Shopify sales from 162 orders"), ("300 → 5.1K", "Instagram followers"), ("85%", "of email revenue from automations")],
+         gallery=["onyi-shopify", "onyi-omnisend", "onyi-before", "onyi-after", "onyi-content"]),
+    dict(slug="coach-for-success", name="Coach for Success", kind="Executive leadership coach", tag="Funnel, content & copy", color="peach",
+         cats="funnels content", cover="sarah-after",
+         challenge="She wasn't attracting qualified leads, and her social media wasn't set up to turn followers into clients.",
+         did="We built her content strategy and content pillars, then a full funnel: ad creative direction, a sales landing page, lead nurturing and the email copy that leads to conversion, plus webinar campaign videos.",
+         stats=[("5", "new clients for a $5,000 coaching programme"), ("+43%", "Instagram followers, 759 to 1,087")],
+         gallery=["logo-coach-for-success"]),
+    dict(slug="marlo-pets", name="Marlo Pets", kind="Australian pet-supplement brand", tag="Growth marketing & content", color="teal",
+         cats="social content", cover="marlo-content",
+         challenge="A dog supplement brand made in Australia, looking to grow an engaged audience of dog owners on Instagram.",
+         did="We planned and produced the brand's social content, mixing product education, customer stories and short-form video, to grow its Instagram audience.",
+         stats=[("2.1×", "Instagram followers, 1,604 to 3,440")],
+         gallery=["marlo-before", "marlo-after"]),
+    dict(slug="lets-get-cookery", name="Let's Get Cookery", kind="Children's book brand", tag="Branding & content", color="sage",
+         cats="content", cover="cookery-content",
+         challenge="A new children's book needed a social presence that would introduce its characters to parents.",
+         did="We created a branded, illustrated content series that introduces the book's characters and story to parents in a consistent look.",
+         stats=[], gallery=[]),
+]
+PROJ = {p["slug"]: p for p in PROJECTS}
+
+# service slug -> (project slug, angle, images, stat indexes)
+HIGHLIGHTS = {
+    "social-media-management": ("bella-books", "We doubled Bella Books' Instagram audience while rebuilding their marketing, from 43K to 86.2K followers.", ["bella-before", "bella-after"], [2, 0]),
+    "content-strategy": ("onyi-africa", "We built Onyi Africa's content system from scratch, so every post feeds the ads, the email list and repeat sales.", ["onyi-before", "onyi-after"], [2, 1]),
+    "content-creation": ("marlo-pets", "Product education, customer stories and short-form video that more than doubled Marlo Pets' Instagram audience.", ["marlo-content", "marlo-after"], [0]),
+    "copywriting": ("coach-for-success", "We wrote the sales landing page and nurture emails that took a leadership coach to her first five $5,000 clients.", ["sarah-after"], [0]),
+    "marketing-strategy": ("bella-books", "A full marketing rebuild, from offers and pricing to tracking and email, behind ₦123.77M in sales.", ["bella-shopify"], [0, 1]),
+    "campaigns": ("bella-books", "Brand campaigns that kept Bella Books' sales climbing. One campaign reel alone reached 323,872 views.", ["bella-reel"], [1, 0]),
+    "paid-ads": ("onyi-africa", "Meta campaigns for our own fashion brand, with top campaigns returning up to 20× ad spend.", ["onyi-meta-ads"], [0, 1]),
+    "funnel-building": ("coach-for-success", "An end-to-end funnel, from ad creative to landing page to nurture emails, that landed five clients on a $5,000 programme.", ["sarah-after"], [0, 1]),
+    "marketing-automation": ("onyi-africa", "Omnisend email flows for Onyi Africa, where automations bring in 85% of email revenue.", ["onyi-omnisend"], [3, 1]),
+}
+
+TESTIMONIALS = [
+    ("Ella consistently exceeded the growth targets we set for her, and helped us gain thousands of new followers through a thoughtful, proactive approach. … We wouldn't be where we are today without her.", "Organic Instagram growth"),
+    ("Working with Ella has been a game-changer for my brand. … She doesn't just offer generic advice; she provides a clear, actionable roadmap that bridges the gap between where you are and where you want to be.", "Social media management & strategy"),
+    ("It has been a pleasure working with Ella. She keeps me on top of my marketing game, even during times when I am overwhelmed. She has found a way to create a system to ensure that my marketing needs are exceeding my expectations!", "Social media & marketing strategy"),
+    ("Ella is a great asset to the team. Her work is always well-developed, strategic and she accepts feedback to improve the overall product.", "Social media content creation"),
+    ("Meeting Ella feels transformative, as if most of my problems have been resolved. … She listens with patience and offers exactly what you need. I would wholeheartedly rehire her!", "Video & marketing flyer"),
+    ("Detail oriented, happy with the results. Good account growth. Will use again.", "Ongoing social media marketing"),
+    ("I would take every opportunity again to work with Omeh. She is amazing!", "Instagram sales & marketing"),
+]
+
+LOGOS = [("logo-onyi", "Onyi Africa"), ("logo-coach-for-success", "Coach for Success"), ("logo-bella-books", "Bella Books"),
+         ("logo-uncorked", "Uncorked Conversations"), ("logo-lovestone", "Lovestone"), ("logo-house", "Client brand")]
