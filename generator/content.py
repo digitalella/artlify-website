@@ -289,4 +289,4 @@ TESTIMONIALS = [
 ]
 
 LOGOS = [("logo-onyi", "Onyi Africa"), ("logo-coach-for-success", "Coach for Success"), ("logo-bella-books", "Bella Books"),
-         ("logo-uncorked", "Uncorked Conversations"), ("logo-lovestone", "Lovestone"), ("logo-house", "Client brand")]
+         ("logo-uncorked", "Uncorked Conversations"), ("logo-lovestone", "Lovestone"), ("logo-house", "Conquer Brand")]

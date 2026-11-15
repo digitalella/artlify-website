@@ -42,7 +42,7 @@
   d.querySelectorAll('.yt-facade').forEach(function(f){f.addEventListener('click',function(){
     var i=d.createElement('iframe');
     i.src='https://www.youtube-nocookie.com/embed/'+f.dataset.yt+'?autoplay=1&playsinline=1&rel=0&modestbranding=1';
-    i.title='Bella Books video testimonial';
+    i.title='Bella Oloha, founder of Bella Books: video testimonial';
     i.allow='autoplay; encrypted-media; picture-in-picture; fullscreen'; i.allowFullscreen=true;
     f.replaceWith(i);
   })});
