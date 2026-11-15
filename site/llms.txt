@@ -14,6 +14,16 @@
 - [Funnel Building](https://artlifyagency.com/services/funnel-building/): Landing pages, lead magnets, booking flows and checkouts designed to convert.
 - [Marketing Automation](https://artlifyagency.com/services/marketing-automation/): Email sequences, CRM workflows and lead nurturing that save time and convert.
 
+## Blog topics
+- [Social Media & Content](https://artlifyagency.com/blog/social-media/): Practical guides to social media and content that actually brings in clients and customers: strategy, content pillars, posting rhythm, captions, UGC and how to measure what's working.
+- [Meta Ads & Paid Campaigns](https://artlifyagency.com/blog/meta-ads/): Step-by-step guides to Facebook and Instagram ads: how much to spend, how to target, which creative converts, what a good ROAS looks like, and how to fix ads that aren't working.
+- [Funnels & Automation](https://artlifyagency.com/blog/funnels-automation/): How to turn attention into sales on autopilot: sales funnels, lead magnets, landing pages, email and WhatsApp flows, and the automation tools that tie them together.
+
+## Articles
+- [Meta Ads for Beginners: How to Plan Your First Facebook & Instagram Campaign](https://artlifyagency.com/blog/meta-ads-for-beginners/): A beginner's guide to Meta ads: choosing an objective, setting up tracking, defining audiences, creating ad creative, setting a budget and reading your results.
+- [Social Media Strategy for Coaches: A Simple Framework That Brings In Clients](https://artlifyagency.com/blog/social-media-strategy-for-coaches/): A practical social media strategy for coaches: define your audience, choose content pillars, pick platforms, build a posting rhythm and turn followers into booked calls.
+- [What Is a Marketing Funnel? A Plain-English Guide for Coaches and Small Brands](https://artlifyagency.com/blog/what-is-a-marketing-funnel/): Learn what a marketing funnel is, the stages of a funnel, and how coaches and small brands can build a simple funnel that turns followers into leads and customers.
+
 ## Pages
 - [About](https://artlifyagency.com/about/)
 - [Work](https://artlifyagency.com/work/)

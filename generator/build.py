@@ -2,7 +2,7 @@
 """Static site generator for Artlify.  python3 build.py [netlify|preview]"""
 import os, sys, json, shutil, hashlib, html
 from urllib.parse import quote
-from content import SITE, SERVICES, AUDIENCES, PROCESS, WHY, ENGAGEMENTS, IMPACT, FAQS, POSTS
+from content import SITE, SERVICES, AUDIENCES, PROCESS, WHY, ENGAGEMENTS, IMPACT, FAQS, AUTHOR, CATEGORIES
 
 MODE = sys.argv[1] if len(sys.argv) > 1 else "netlify"
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -140,7 +140,7 @@ def footer(p):
 
 PAGES = []  # (path, priority, indexable)
 
-def write(path, title, desc, body, active="", schema=None, og_type="website", noindex=False, priority="0.7", preload_img=None):
+def write(path, title, desc, body, active="", schema=None, og_type="website", noindex=False, priority="0.7", preload_img=None, lastmod=None):
     p = Page(path)
     css_v = sha(os.path.join(ROOT, "src/assets/site.css")); js_v = sha(os.path.join(ROOT, "src/assets/site.js"))
     url = BASE + path
@@ -158,7 +158,7 @@ def write(path, title, desc, body, active="", schema=None, og_type="website", no
 <link rel="canonical" href="{url}">
 <meta name="robots" content="{"noindex, follow" if noindex else "index, follow, max-image-preview:large, max-snippet:-1"}">
 <meta name="theme-color" content="#F1EAD8">
-<meta name="author" content="Artlify Agency">
+<meta name="author" content="{E(AUTHOR["name"]) if og_type == "article" else "Artlify Agency"}">
 <meta property="og:type" content="{og_type}">
 <meta property="og:site_name" content="Artlify">
 <meta property="og:locale" content="en_GB">
@@ -176,6 +176,7 @@ def write(path, title, desc, body, active="", schema=None, og_type="website", no
 <link rel="icon" type="image/png" sizes="96x96" href="{p.asset("img/favicon-96.png")}">
 <link rel="apple-touch-icon" href="{p.href("/apple-touch-icon.png")}">
 <link rel="manifest" href="{p.href("/site.webmanifest")}">
+<link rel="alternate" type="application/rss+xml" title="Artlify Blog" href="{BASE}/blog/feed.xml">
 <link rel="preload" href="{p.asset("fonts/lost-sarafin.woff2")}" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="{p.asset("fonts/garute-400.woff2")}" as="font" type="font/woff2" crossorigin>
 {pre}
@@ -195,7 +196,7 @@ def write(path, title, desc, body, active="", schema=None, og_type="website", no
     fp = os.path.join(OUT, path.strip("/"), "index.html") if path != "/404" else os.path.join(OUT, "404.html")
     os.makedirs(os.path.dirname(fp), exist_ok=True)
     open(fp, "w").write(doc)
-    if not noindex and path != "/404": PAGES.append((path, priority))
+    if not noindex and path != "/404": PAGES.append((path, priority, lastmod or SITE["updated"]))
 
 def img(p, name, alt, cls="", w=1400, h=933, eager=False, sizes="(max-width: 1000px) 100vw, 50vw"):
     return (f'<img class="{cls}" src="{p.asset(f"img/{name}-1400.webp")}" srcset="{p.asset(f"img/{name}-720.webp")} 720w, {p.asset(f"img/{name}-1400.webp")} 1400w" '
@@ -455,45 +456,166 @@ def work(p):
 ''' + band(p, 'Your brand could be <span class="c-le">next.</span>')
 
 # =================================================================== BLOG
+import re, datetime, markdown as _md
+CAT = {c["slug"]: c for c in CATEGORIES}
+
+def fdate(d):
+    return datetime.date.fromisoformat(d).strftime("%-d %B %Y")
+
+def load_posts():
+    posts = []
+    for fn in sorted(os.listdir(os.path.join(ROOT, "posts"))):
+        if not fn.endswith(".md") or fn.startswith(("_", "README")): continue
+        raw = open(os.path.join(ROOT, "posts", fn), encoding="utf-8").read()
+        _, fm, body = raw.split("---", 2)
+        m = {}
+        for line in fm.strip().splitlines():
+            if ":" in line:
+                k, v = line.split(":", 1); m[k.strip().lower()] = v.strip()
+        if m.get("draft", "").lower() in ("yes", "true"): continue
+        body = re.sub(r"^\s*# .*\n", "", body.lstrip(), count=1)  # drop a pasted H1 (the title is the H1)
+        faqs = []
+        fq = re.search(r"^## (?:FAQs?|Frequently asked questions)\s*$", body, re.M | re.I)
+        if fq:
+            tail = body[fq.end():]; body = body[:fq.start()]
+            for q, a in re.findall(r"^### (.+?)\s*\n(.*?)(?=^### |\Z)", tail, re.M | re.S):
+                faqs.append((q.strip(), " ".join(a.split())))
+        md = _md.Markdown(extensions=["tables", "toc", "sane_lists"], extension_configs={"toc": {"toc_depth": "2"}})
+        htm = md.convert(body)
+        words = len(re.sub(r"<[^>]+>", " ", htm).split())
+        cat = CAT[m["category"]]
+        posts.append(dict(m, slug=m.get("slug") or fn[:-3], cat=cat, html=htm, faqs=faqs, words=words,
+                          read=f"{max(3, round(words / 220))} min", updated=m.get("updated") or m["date"],
+                          toc=[(t["id"], t["name"]) for t in md.toc_tokens], pillar=m.get("pillar", "").lower() in ("yes", "true"),
+                          excerpt=m.get("excerpt") or m["description"], color=cat["color"]))
+    posts.sort(key=lambda x: x["date"], reverse=True)
+    return posts
+
+POSTS = load_posts()
+def cat_posts(c): return [b for b in POSTS if b["cat"] is c]
+LIVE_CATS = [c for c in CATEGORIES if cat_posts(c)]
+def purl(b): return f'/blog/{b["slug"]}/'
+def curl(c): return f'/blog/{c["slug"]}/'
+def plural(n, w): return f"{n} {w}{'' if n == 1 else 's'}"
+TAGSTYLE = 'style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase"'
+
+def post_card(p, b, i, tag="h3"):
+    bg, dk = COL[b["color"]]
+    g = ('<span class="g"' + (' style="color:var(--cream)"' if dk else "") + '>Guide</span>') if b["pillar"] else ""
+    return (f'<article class="card rv"><a href="{p.href(purl(b))}" style="display:contents">'
+            f'<div class="cv" style="--bg:{bg}"><span class="tag">{E(b["cat"]["short"])}</span>{shape(p, [2, 6, 7][i % 3], cls="shape")}{g}</div>'
+            f'<div class="bd"><{tag} style="font-size:clamp(23px,2vw,28px)">{E(b["title"])}</{tag}><p>{E(b["excerpt"])}</p>'
+            f'<div class="meta"><time datetime="{b["updated"]}">{fdate(b["updated"])}</time><span>{E(b["read"])} read</span></div></div></a></article>')
+
+def cat_nav(p, current=None):
+    cur = ' aria-current="page"'
+    a = [f'<a href="{p.href("/blog/")}" class="fbtn"{cur if current is None else ""}>All articles</a>']
+    for c in LIVE_CATS:
+        a.append(f'<a href="{p.href(curl(c))}" class="fbtn"{cur if current is c else ""}>{E(c["name"])} <small>{len(cat_posts(c))}</small></a>')
+    return f'<nav class="filters cat-nav" aria-label="Blog topics">{"".join(a)}</nav>'
+
+def itemlist(posts):
+    return {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": BASE + purl(b), "name": b["title"]} for i, b in enumerate(posts)]}
+
+def hub_card(p, c):
+    bg, dk = COL[c["color"]]
+    return (f'<a href="{p.href(curl(c))}" class="rel rv{" dk" if dk else ""}" style="--bg:{bg}"><span class="tag" {TAGSTYLE}>{plural(len(cat_posts(c)), "article")}</span>'
+            f'<h3>{E(c["name"])}</h3><p style="font-size:15.5px">{E(c["intro"])}</p><span style="font-weight:600">Explore &rarr;</span></a>')
+
 def blog_index(p):
-    shapes = [2, 6, 7]
-    cards = "".join(f'''<article class="card rv" data-cat="{E(b["cat"])}"><a href="{p.href("/blog/" + b["slug"] + "/")}" style="display:contents">
-<div class="cv" style="--bg:{COL[b["color"]][0]}"><span class="tag">{E(b["cat"])}</span>{shape(p, shapes[i % 3], cls="shape")}<span class="g"{' style="color:var(--cream)"' if COL[b["color"]][1] else ""}>0{i+1}</span></div>
-<div class="bd"><h2 style="font-size:clamp(23px,2vw,28px)">{E(b["title"])}</h2><p>{E(b["excerpt"])}</p><div class="meta"><span>{E(b["read"])} read</span><span>Read article →</span></div></div></a></article>''' for i, b in enumerate(POSTS))
-    cats = sorted(set(b["cat"] for b in POSTS))
-    flt = "".join(f'<button class="fbtn" data-f="{E(c)}" aria-pressed="false">{E(c)}</button>' for c in cats)
+    pillars = [b for b in POSTS if b["pillar"]]
+    start = ('<div class="sec-head" style="margin-top:70px"><div><span class="eyebrow">Start here</span><h2 style="margin-top:14px">Our complete guides</h2></div></div>'
+             f'<div class="cards">{"".join(post_card(p, b, i) for i, b in enumerate(pillars))}</div>') if pillars else ""
     return phero(p, "The Artlify blog", 'Marketing ideas you can <span class="c-or">actually use.</span>',
-                 ["Practical guides on social media, content, paid ads, funnels and automation for coaches and growing brands."],
+                 ["Practical guides on hiring an agency, social media, Meta ads, funnels and automation, for coaches and growing brands in Nigeria, the UK and the US."],
                  [("Home", "/"), ("Blog", "/blog/")], decos=(5, 3, 2)) + f'''
 <section class="s" style="padding-top:10px"><div class="wrap">
-<div class="filters" data-filters="#posts" role="group" aria-label="Filter articles"><button class="fbtn" data-f="all" aria-pressed="true">All</button>{flt}</div>
-<div class="cards" id="posts">{cards}</div>
+{cat_nav(p)}
+<div class="sec-head"><div><span class="eyebrow">Browse by topic</span><h2 style="margin-top:14px">Pick what you need help with</h2></div></div>
+<div class="related">{"".join(hub_card(p, c) for c in LIVE_CATS)}</div>
+{start}
+<div class="sec-head" style="margin-top:70px"><div><span class="eyebrow">Latest</span><h2 style="margin-top:14px">New articles</h2></div></div>
+<div class="cards">{"".join(post_card(p, b, i) for i, b in enumerate(POSTS))}</div>
 </div></section>''' + band(p, 'Rather we do it <span class="c-le">for you?</span>')
 
-def post_page(b):
+def cat_page(c):
+    posts = cat_posts(c)
+    pillars = [b for b in posts if b["pillar"]]; rest = [b for b in posts if not b["pillar"]]
+    svcs = [s for s in SERVICES if s["slug"] in c["services"]]
     def body(p):
-        parts = []
-        for t, v in b["body"]:
-            if t == "p": parts.append(f"<p>{E(v)}</p>")
-            elif t == "h2": parts.append(f"<h2>{E(v)}</h2>")
-            elif t == "ul": parts.append("<ul>" + "".join(f"<li>{E(x)}</li>" for x in v) + "</ul>")
-        i = POSTS.index(b); others = [o for o in POSTS if o is not b]
-        rel = "".join(f'<a href="{p.href("/blog/" + o["slug"] + "/")}" class="rel rv" style="--bg:{COL[o["color"]][0]}{";color:var(--cream)" if COL[o["color"]][1] else ""}"><span class="tag" style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase">{E(o["cat"])}</span><h3>{E(o["title"])}</h3></a>' for o in others)
+        guide = ""
+        if pillars:
+            g = pillars[0]
+            guide = (f'<a href="{p.href(purl(g))}" class="guide rv" style="--bg:{COL[c["color"]][0]}"><span class="eyebrow">Start here: the complete guide</span>'
+                     f'<h2>{E(g["title"])}</h2><p>{E(g["excerpt"])}</p><span class="btn b-ink">Read the guide <span class="arr">&rarr;</span></span></a>')
+        mt = ' style="margin-top:60px"' if guide else ""
+        return phero(p, "Blog topic", E(c["name"]), [E(c["intro"])],
+                     [("Home", "/"), ("Blog", "/blog/"), (c["name"], curl(c))], decos=(6, 2, 7)) + f'''
+<section class="s" style="padding-top:10px"><div class="wrap">
+{cat_nav(p, c)}
+{guide}
+<div class="sec-head"{mt}><div><span class="eyebrow">All {E(c["short"].lower())} articles</span><h2 style="margin-top:14px">{plural(len(posts), "article")} on {E(c["name"].lower())}</h2></div></div>
+<div class="cards">{"".join(post_card(p, b, i, "h2") for i, b in enumerate(rest or pillars))}</div>
+<div class="sec-head" style="margin-top:70px"><div><span class="eyebrow">Want it done for you?</span><h2 style="margin-top:14px">Related services</h2></div></div>
+<div class="related">{"".join(svc_card(p, s) for s in svcs)}</div>
+</div></section>''' + band(p, 'Rather we do it <span class="c-le">for you?</span>')
+    schema = [crumbs_schema([("Home", "/"), ("Blog", "/blog/"), (c["name"], curl(c))]),
+              {"@type": "CollectionPage", "@id": BASE + curl(c), "url": BASE + curl(c), "name": c["name"], "description": c["desc"],
+               "isPartOf": {"@id": BASE + "/#website"}, "mainEntity": itemlist(posts)}]
+    write(curl(c), c["title"], c["desc"], body, "blog", schema, priority="0.6", lastmod=max(b["updated"] for b in posts))
+
+def author_schema():
+    a = {"@type": "Person", "@id": BASE + "/#author", "name": AUTHOR["name"], "jobTitle": AUTHOR["role"], "url": BASE + AUTHOR["url"],
+         "worksFor": {"@id": BASE + "/#organization"}}
+    if AUTHOR["same_as"]: a["sameAs"] = AUTHOR["same_as"]
+    return a
+
+def post_page(b):
+    c = b["cat"]
+    def body(p):
+        prose = re.sub(r'href="(/[^"]*)"', lambda m: f'href="{p.href(m.group(1))}"', b["html"])
+        same = [o for o in cat_posts(c) if o is not b]
+        others = (same + [o for o in POSTS if o is not b and o not in same])[:3]
+        rel = "".join(f'<a href="{p.href(purl(o))}" class="rel rv{" dk" if COL[o["color"]][1] else ""}" style="--bg:{COL[o["color"]][0]}"><span class="tag" {TAGSTYLE}>{E(o["cat"]["short"])}</span><h3>{E(o["title"])}</h3></a>' for o in others)
+        toc = ""
+        if len(b["toc"]) >= 3:
+            lis = "".join(f'<li><a href="#{i}">{E(n)}</a></li>' for i, n in b["toc"])
+            if b["faqs"]: lis += '<li><a href="#faqs">Frequently asked questions</a></li>'
+            toc = f'<nav class="toc" aria-label="Table of contents"><details open><summary>In this article</summary><ol>{lis}</ol></details></nav>'
+        faqs = f'<section class="post-faq" id="faqs"><h2>Frequently asked questions</h2>{faq_html(b["faqs"])}</section>' if b["faqs"] else ""
+        quick = f'<aside class="quick" aria-label="Quick answer"><span class="eyebrow">Quick answer</span><p>{E(b["quick"])}</p></aside>' if b.get("quick") else ""
+        svcs = "".join(f'<a href="{p.href("/services/" + s["slug"] + "/")}">{E(s["name"])}</a>' for s in SERVICES if s["slug"] in c["services"])
+        upd = f'<span>&middot;</span><span>Updated <time datetime="{b["updated"]}">{fdate(b["updated"])}</time></span>' if b["updated"] != b["date"] else ""
+        dk = ' style="color:var(--cream)"' if COL[b["color"]][1] else ""
         return f'''<section class="s" style="padding-top:clamp(30px,5vw,60px)"><article class="wrap"><div class="article">
-{crumbs_html(p, [("Home", "/"), ("Blog", "/blog/"), (b["cat"], f'/blog/{b["slug"]}/')])}
-<span class="pill"><i></i>{E(b["cat"])}</span>
+{crumbs_html(p, [("Home", "/"), ("Blog", "/blog/"), (c["name"], curl(c)), (b["title"], purl(b))])}
+<a href="{p.href(curl(c))}" class="pill"><i></i>{E(c["name"])}</a>
 <h1 style="font-size:clamp(38px,5vw,66px);margin:20px 0 14px">{E(b["title"])}</h1>
-<div class="byline"><span>By the Artlify Team</span><span>·</span><time datetime="{b["date"]}">13 November 2026</time><span>·</span><span>{E(b["read"])} read</span></div>
-<div class="cover" style="--bg:{COL[b["color"]][0]};margin-top:30px" aria-hidden="true">{shape(p, [2, 6, 7][i % 3])}<span class="g"{' style="color:var(--cream)"' if COL[b["color"]][1] else ""}>{E(b["cat"])}</span></div>
-<div class="prose">{"".join(parts)}</div>
-<aside class="post-cta"><h2>Want this done for you?</h2><p>Artlify plans and runs marketing for coaches and growing brands — strategy, content, ads, funnels and automation.</p><a href="{p.href("/work-with-us/")}" class="btn b-le" style="border-color:var(--ink)">Work With Us <span class="arr">→</span></a></aside>
+<div class="byline"><span>By <a href="{p.href(AUTHOR["url"])}" rel="author">{E(AUTHOR["name"])}</a></span><span>&middot;</span><span>Published <time datetime="{b["date"]}">{fdate(b["date"])}</time></span>{upd}<span>&middot;</span><span>{E(b["read"])} read</span></div>
+<div class="cover" style="--bg:{COL[b["color"]][0]};margin-top:30px" aria-hidden="true">{shape(p, [2, 6, 7][POSTS.index(b) % 3])}<span class="g"{dk}>{E(c["short"])}</span></div>
+{quick}
+{toc}
+<div class="prose">{prose}</div>
+{faqs}
+<aside class="author-box"><span class="av" aria-hidden="true">{E(AUTHOR["name"][0])}</span><div><span class="eyebrow">Written by</span><h2>{E(AUTHOR["name"])}</h2><p class="role">{E(AUTHOR["role"])}</p><p>{E(AUTHOR["bio"])}</p></div></aside>
+<aside class="post-cta"><h2>Want this done for you?</h2><p>Artlify plans and runs marketing for coaches and growing brands.</p><p class="svc-links">{svcs}</p><a href="{p.href("/work-with-us/")}" class="btn b-le" style="border-color:var(--ink)">Work With Us <span class="arr">&rarr;</span></a></aside>
 </div></article></section>
-<section class="s" style="padding-top:0"><div class="wrap"><div class="sec-head"><div><span class="eyebrow">Keep reading</span><h2 style="margin-top:14px">More from the blog</h2></div><a href="{p.href("/blog/")}" class="btn">All Articles <span class="arr">→</span></a></div><div class="related" style="grid-template-columns:repeat(2,1fr)">{rel}</div></div></section>'''
-    schema = [crumbs_schema([("Home", "/"), ("Blog", "/blog/"), (b["title"], f'/blog/{b["slug"]}/')]),
-              {"@type": "BlogPosting", "headline": b["title"], "description": b["desc"], "datePublished": b["date"], "dateModified": b["date"],
-               "mainEntityOfPage": f'{BASE}/blog/{b["slug"]}/', "image": BASE + "/assets/img/og-image.jpg", "articleSection": b["cat"],
-               "author": {"@type": "Organization", "name": "Artlify Team", "url": BASE + "/about/"}, "publisher": {"@id": BASE + "/#organization"}}]
-    write(f'/blog/{b["slug"]}/', b["seo"], b["desc"], body, "blog", schema, "article", priority="0.6")
+<section class="s" style="padding-top:0"><div class="wrap"><div class="sec-head"><div><span class="eyebrow">Keep reading</span><h2 style="margin-top:14px">More from the blog</h2></div><a href="{p.href(curl(c))}" class="btn">All {E(c["short"])} Articles <span class="arr">&rarr;</span></a></div><div class="related">{rel}</div></div></section>'''
+    post = {"@type": "BlogPosting", "@id": BASE + purl(b) + "#article", "headline": b["title"], "description": b["description"],
+            "datePublished": b["date"], "dateModified": b["updated"], "wordCount": b["words"], "inLanguage": "en",
+            "mainEntityOfPage": BASE + purl(b), "image": BASE + "/assets/img/og-image.jpg", "articleSection": c["name"],
+            "author": author_schema(), "publisher": {"@id": BASE + "/#organization"},
+            "isPartOf": {"@type": "Blog", "@id": BASE + "/blog/#blog", "name": "Artlify Blog", "url": BASE + "/blog/"}}
+    schema = [crumbs_schema([("Home", "/"), ("Blog", "/blog/"), (c["name"], curl(c)), (b["title"], purl(b))]), post]
+    if b["faqs"]: schema.append(faq_schema(b["faqs"]))
+    write(purl(b), b["seo"], b["description"], body, "blog", schema, "article", priority="0.6", lastmod=b["updated"])
+
+def rss():
+    items = "".join(f'<item><title>{E(b["title"])}</title><link>{BASE}{purl(b)}</link><guid>{BASE}{purl(b)}</guid>'
+                    f'<pubDate>{datetime.date.fromisoformat(b["date"]).strftime("%a, %d %b %Y 09:00:00 +0000")}</pubDate>'
+                    f'<category>{E(b["cat"]["name"])}</category><description>{E(b["description"])}</description></item>' for b in POSTS)
+    os.makedirs(os.path.join(OUT, "blog"), exist_ok=True)
+    open(os.path.join(OUT, "blog", "feed.xml"), "w").write(f'<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>Artlify Blog</title><link>{BASE}/blog/</link><description>Marketing guides for coaches and growing brands.</description><language>en</language>{items}</channel></rss>\n')
 
 # =================================================================== WORK WITH US
 def opts(name, items, kind="checkbox"):
@@ -573,8 +695,13 @@ def build():
           work, "work", [crumbs_schema([("Home", "/"), ("Work", "/work/")])], priority="0.7")
     write("/blog/", "Marketing Blog for Coaches & Brands | Artlify",
           "Practical marketing guides from Artlify on social media strategy, content, Meta ads, funnels and automation for coaches and growing brands.",
-          blog_index, "blog", [crumbs_schema([("Home", "/"), ("Blog", "/blog/")])], priority="0.7")
+          blog_index, "blog", [crumbs_schema([("Home", "/"), ("Blog", "/blog/")]),
+          {"@type": "Blog", "@id": BASE + "/blog/#blog", "url": BASE + "/blog/", "name": "Artlify Blog", "publisher": {"@id": BASE + "/#organization"},
+           "blogPost": [{"@id": BASE + purl(b) + "#article"} for b in POSTS]}],
+          priority="0.7", lastmod=POSTS[0]["updated"] if POSTS else None)
+    for c in LIVE_CATS: cat_page(c)
     for b in POSTS: post_page(b)
+    rss()
     write("/work-with-us/", "Work With Us | Get a Marketing Proposal | Artlify",
           "Tell Artlify about your business and goals. Enquire about social media management, content, paid ads, funnels, automation or a full growth partnership.",
           wwu, "", [crumbs_schema([("Home", "/"), ("Work With Us", "/work-with-us/")])], priority="0.9")
@@ -586,7 +713,7 @@ def build():
     write("/404", "Page not found | Artlify", "Sorry, this page could not be found. Explore Artlify’s marketing services, work and blog instead.", e404, noindex=True)
 
     up = SITE["updated"]
-    sm = "".join(f"<url><loc>{BASE}{pth}</loc><lastmod>{up}</lastmod><priority>{pr}</priority></url>" for pth, pr in PAGES)
+    sm = "".join(f"<url><loc>{BASE}{pth}</loc><lastmod>{lm}</lastmod><priority>{pr}</priority></url>" for pth, pr, lm in PAGES)
     open(os.path.join(OUT, "sitemap.xml"), "w").write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sm}</urlset>\n')
     open(os.path.join(OUT, "robots.txt"), "w").write(f"User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n")
     open(os.path.join(OUT, "site.webmanifest"), "w").write(json.dumps({"name": "Artlify Marketing Agency", "short_name": "Artlify", "start_url": "/", "display": "standalone",
@@ -602,6 +729,8 @@ def build():
 """)
     open(os.path.join(OUT, "_redirects"), "w").write("/contact  /work-with-us/  301\n/contact/  /work-with-us/  301\n/home  /  301\n")
     llms = f"# Artlify\n\n> {SITE['description']}\n\n## Services\n" + "".join(f"- [{s['name']}]({BASE}/services/{s['slug']}/): {s['card']}\n" for s in SERVICES) + \
+           "\n## Blog topics\n" + "".join(f"- [{c['name']}]({BASE}{curl(c)}): {c['intro']}\n" for c in LIVE_CATS) + \
+           "\n## Articles\n" + "".join(f"- [{b['title']}]({BASE}{purl(b)}): {b['description']}\n" for b in POSTS) + \
            f"\n## Pages\n- [About]({BASE}/about/)\n- [Work]({BASE}/work/)\n- [Blog]({BASE}/blog/)\n- [FAQ]({BASE}/faq/)\n- [Work With Us]({BASE}/work-with-us/)\n"
     open(os.path.join(OUT, "llms.txt"), "w").write(llms)
     print(MODE, "built", len(PAGES), "indexable pages ->", OUT)
