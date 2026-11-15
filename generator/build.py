@@ -391,20 +391,21 @@ def home(p):
 <section class="s feat"><span class="bgword" aria-hidden="true">Featured</span><div class="wrap feat-grid">
 <div>
 <span class="eyebrow rv">Featured work</span>
-<h2 class="rv d1">Content that <span class="c-or">converts.</span></h2>
-<p class="lead rv d2">A look at the kind of scroll-stopping, on-brand content we create — designed to educate, build trust and turn followers into clients.</p>
-<div class="cta-row rv d3" style="margin-top:30px"><a href="{p.href("/work/")}" class="btn b-ink">View Full Work <span class="arr">→</span></a></div>
+<h2 class="rv d1">Bella Books: from stalling sales to <span class="c-or">₦123M+.</span></h2>
+<p class="lead rv d2">An online bookstore with ads that weren't converting and a store that couldn't track sales. We rebuilt the whole marketing system, from offers and pricing to Shopify, Meta ads and email.</p>
+<div class="pstats rv d2" style="margin-top:26px">{stats_chips(PROJ["bella-books"]["stats"])}</div>
+<div class="cta-row rv d3" style="margin-top:4px"><a href="{p.href("/work/#bella-books")}" class="btn b-ink">Read the Case Study <span class="arr">→</span></a><a href="{p.href("/work/")}" class="btn">View All Work</a></div>
 <div class="meta-card rv d3"><dl>
-<div><dt>Client</dt><dd class="phx">[Client / brand name]</dd></div>
-<div><dt>Services</dt><dd>Content Strategy · Social Media</dd></div>
-<div><dt>The goal</dt><dd class="phx">[What the client wanted to achieve]</dd></div>
-<div><dt>The result</dt><dd class="phx">[Verified results, with permission]</dd></div>
+<div><dt>Client</dt><dd>Bella Books, e-commerce bookstore</dd></div>
+<div><dt>Services</dt><dd>Marketing Strategy · Meta Ads · Email · Social Media</dd></div>
+<div><dt>The goal</dt><dd>Turn a struggling online store into a sales engine that can scale</dd></div>
+<div><dt>The result</dt><dd>₦123.77M in sales from Dec 2025 to May 2026, up 118%, and 2× the Instagram audience</dd></div>
 </dl></div>
 </div>
 <div class="phone-wrap rv d1"><span class="b1" aria-hidden="true"></span><span class="b2" aria-hidden="true">{shape(p, 6)}</span>
 <div class="phone"><div class="screen"><span class="notch" aria-hidden="true"></span>
-<video data-autoplay muted loop playsinline preload="none" poster="{p.asset("img/reel-poster.webp")}" width="540" height="960" aria-label="Looping preview of Artlify social media carousel designs"><source src="{p.asset("img/reel.mp4")}" type="video/mp4"></video>
-</div></div></div>
+{wimg(p, "bella-after", "Bella Books Instagram profile after working with Artlify: 86.2K followers", cls="shot", sizes="320px")}
+</div></div><span class="sticker" aria-hidden="true"><b>86.2K</b>followers</span></div>
 </div></section>
 
 <section class="s" style="padding-top:0"><div class="wrap faq">
