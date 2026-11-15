@@ -1,0 +1,22 @@
+# Artlify
+
+> Artlify is a full-service marketing agency for coaches and growing brands — social media management, content strategy and creation, copywriting, paid ads, campaigns, funnels and marketing automation, personalised to your brand.
+
+## Services
+- [Social Media Management](https://artlifyagency.com/services/social-media-management/): Planning, posting, engagement and reporting across the platforms your audience actually uses.
+- [Content Strategy](https://artlifyagency.com/services/content-strategy/): Audience research, content pillars and a clear plan so every post works toward a goal.
+- [Content Creation](https://artlifyagency.com/services/content-creation/): Reels, carousels, graphics and short-form video that look like you and speak to your audience.
+- [Copywriting](https://artlifyagency.com/services/copywriting/): Website, sales page, email and ad copy written in your voice and built to convert.
+- [Marketing Strategy](https://artlifyagency.com/services/marketing-strategy/): Positioning, offers, channels and a growth roadmap personalised to your business.
+- [Campaigns & Launches](https://artlifyagency.com/services/campaigns/): Integrated launches and campaigns — concept, content, ads and email working together.
+- [Paid Ads & Sponsored Ads](https://artlifyagency.com/services/paid-ads/): Meta, TikTok, LinkedIn and Google ads — strategy, creative, testing and clear reporting.
+- [Influencer & Sponsorships](https://artlifyagency.com/services/influencer-sponsorships/): Creator sourcing, outreach, briefs and sponsorship management with the right partners.
+- [Funnel Building](https://artlifyagency.com/services/funnel-building/): Landing pages, lead magnets, booking flows and checkouts designed to convert.
+- [Marketing Automation](https://artlifyagency.com/services/marketing-automation/): Email sequences, CRM workflows and lead nurturing that save time and convert.
+
+## Pages
+- [About](https://artlifyagency.com/about/)
+- [Work](https://artlifyagency.com/work/)
+- [Blog](https://artlifyagency.com/blog/)
+- [FAQ](https://artlifyagency.com/faq/)
+- [Work With Us](https://artlifyagency.com/work-with-us/)
