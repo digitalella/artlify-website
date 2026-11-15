@@ -527,7 +527,8 @@ def wwu(p):
                  [("Home", "/"), ("Work With Us", "/work-with-us/")], decos=(6, 3, 7)) + f'''
 <section class="s" style="padding-top:10px"><div class="wrap wwu">
 <aside class="wwu-side"><div class="side-card"><h2>What happens next</h2><ol>{"".join(f"<li><b>0{i+1}</b>{E(h)}</li>" for i, (h, t) in enumerate(PROCESS))}</ol></div>
-<p style="margin-top:20px;font-size:15.5px;color:var(--muted)">Have a question first? <a href="{p.href("/faq/")}" class="txtlink" style="color:var(--ink)">Read the FAQ <span>→</span></a></p></aside>
+<p style="margin-top:20px;font-size:15.5px;color:var(--muted)">Have a question first? <a href="{p.href("/faq/")}" class="txtlink" style="color:var(--ink)">Read the FAQ <span>→</span></a></p>
+{f'<p style="margin-top:12px;font-size:15.5px;color:var(--muted)">Prefer email? <a href="mailto:{E(SITE["email"])}" class="txtlink" style="color:var(--ink)">{E(SITE["email"])}</a></p>' if SITE["email"] else ""}</aside>
 <div class="fbox" id="fbox" data-tally="{E(SITE["tally_id"])}"><div class="tally-wrap" id="tallyWrap" hidden></div>{form}</div>
 </div></section>'''
 

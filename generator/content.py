@@ -8,7 +8,7 @@ SITE = {
     "url": "https://artlifyagency.com",
     "tagline": "Marketing agency for coaches & growing brands",
     "description": "Artlify is a full-service marketing agency for coaches and growing brands — social media management, content strategy and creation, copywriting, paid ads, campaigns, funnels and marketing automation, personalised to your brand.",
-    "email": "",            # e.g. "hello@artlify.agency"
+    "email": "admin@artlifyagency.com",
     "instagram": "",        # e.g. "https://instagram.com/artlify.agency"
     "linkedin": "",         # e.g. "https://linkedin.com/company/artlify"
     "tally_id": "VpEyD6",         # e.g. "w4XyZ1" from https://tally.so/r/w4XyZ1
