@@ -562,13 +562,14 @@ def cat_page(c):
             guide = (f'<a href="{p.href(purl(g))}" class="guide rv" style="--bg:{COL[c["color"]][0]}"><span class="eyebrow">Start here: the complete guide</span>'
                      f'<h2>{E(g["title"])}</h2><p>{E(g["excerpt"])}</p><span class="btn b-ink">Read the guide <span class="arr">&rarr;</span></span></a>')
         mt = ' style="margin-top:60px"' if guide else ""
+        listing = "" if (guide and not rest) else (f'<div class="sec-head"{mt}><div><span class="eyebrow">All {E(c["short"].lower())} articles</span><h2 style="margin-top:14px">{plural(len(posts), "article")} on {E(c["name"].lower())}</h2></div></div>'
+                                                   f'<div class="cards">{"".join(post_card(p, b, i, "h2") for i, b in enumerate(rest or pillars))}</div>')
         return phero(p, "Blog topic", E(c["name"]), [E(c["intro"])],
                      [("Home", "/"), ("Blog", "/blog/"), (c["name"], curl(c))], decos=(6, 2, 7)) + f'''
 <section class="s" style="padding-top:10px"><div class="wrap">
 {cat_nav(p, c)}
 {guide}
-<div class="sec-head"{mt}><div><span class="eyebrow">All {E(c["short"].lower())} articles</span><h2 style="margin-top:14px">{plural(len(posts), "article")} on {E(c["name"].lower())}</h2></div></div>
-<div class="cards">{"".join(post_card(p, b, i, "h2") for i, b in enumerate(rest or pillars))}</div>
+{listing}
 <div class="sec-head" style="margin-top:70px"><div><span class="eyebrow">Want it done for you?</span><h2 style="margin-top:14px">Related services</h2></div></div>
 <div class="related">{"".join(svc_card(p, s) for s in svcs)}</div>
 </div></section>''' + band(p, 'Rather we do it <span class="c-le">for you?</span>')
