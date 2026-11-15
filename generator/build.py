@@ -51,6 +51,7 @@ def org_schema():
          "url": BASE + "/", "logo": {"@type": "ImageObject", "url": BASE + "/assets/img/icon-512.png", "width": 512, "height": 512},
          "image": BASE + "/assets/img/og-image.jpg", "description": SITE["description"], "foundingDate": SITE["founded"],
          "areaServed": "Worldwide",
+         "founder": {"@type": "Person", "@id": BASE + "/#author", "name": AUTHOR["name"], "sameAs": AUTHOR["same_as"]},
          "knowsAbout": [s["name"] for s in SERVICES] + ["Digital marketing", "Marketing for coaches", "E-commerce marketing"],
          "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Marketing services", "itemListElement": [
              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": s["name"], "url": f'{BASE}/services/{s["slug"]}/'}} for s in SERVICES]}}
@@ -109,7 +110,7 @@ SOC = {
 }
 
 def footer(p):
-    ig = SITE["instagram"] or "#"; li = SITE["linkedin"] or "#"
+    ig = SITE["instagram"] or "#"; li = SITE["linkedin"] or SITE.get("founder_linkedin") or "#"
     em = ("mailto:" + SITE["email"]) if SITE["email"] else p.href("/work-with-us/")
     ext = lambda u: ' target="_blank" rel="noopener"' if u.startswith("http") else ""
     svc = "".join(f'<a href="{p.href("/services/" + s["slug"] + "/")}">{E(s["name"])}</a>' for s in SERVICES[:6])
@@ -686,7 +687,7 @@ def post_page(b):
 {toc}
 <div class="prose">{prose}</div>
 {faqs}
-<aside class="author-box"><span class="av">{wimg(p, "founder", AUTHOR["name"], sizes="72px")}</span><div><span class="eyebrow">Written by</span><h2>{E(AUTHOR["name"])}</h2><p class="role">{E(AUTHOR["role"])}</p><p>{E(AUTHOR["bio"])}</p></div></aside>
+<aside class="author-box"><span class="av">{wimg(p, "founder", AUTHOR["name"], sizes="72px")}</span><div><span class="eyebrow">Written by</span><h2>{E(AUTHOR["name"])}</h2><p class="role">{E(AUTHOR["role"])}</p><p>{E(AUTHOR["bio"])}</p>{f'<p><a href="{AUTHOR["same_as"][0]}" target="_blank" rel="noopener me" class="txtlink">Connect on LinkedIn <span>&rarr;</span></a></p>' if AUTHOR["same_as"] else ""}</div></aside>
 <aside class="post-cta"><h2>Want this done for you?</h2><p>Artlify plans and runs marketing for coaches and growing brands.</p><p class="svc-links">{svcs}</p><a href="{p.href("/work-with-us/")}" class="btn b-le" style="border-color:var(--ink)">Work With Us <span class="arr">&rarr;</span></a></aside>
 </div></article></section>
 <section class="s" style="padding-top:0"><div class="wrap"><div class="sec-head"><div><span class="eyebrow">Keep reading</span><h2 style="margin-top:14px">More from the blog</h2></div><a href="{p.href(curl(c))}" class="btn">All {E(c["short"])} Articles <span class="arr">&rarr;</span></a></div><div class="related">{rel}</div></div></section>'''

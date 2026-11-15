@@ -12,7 +12,8 @@ SITE = {
     "phone": "+2348142133113",            # WhatsApp + calls, international format
     "phone_display": "+234 814 213 3113",
     "instagram": "https://www.instagram.com/artlifyagency",
-    "linkedin": "",         # e.g. "https://linkedin.com/company/artlify"
+    "linkedin": "",         # company page, e.g. "https://linkedin.com/company/artlify"
+    "founder_linkedin": "https://www.linkedin.com/in/emmanuella-omeh-5546641a6/",
     "ga_id": "G-13HFLWTRSM",       # Google Analytics 4 measurement ID
     "tally_id": "VpEyD6",         # e.g. "w4XyZ1" from https://tally.so/r/w4XyZ1
     "founded": "2024",
@@ -203,7 +204,7 @@ AUTHOR = dict(
     role="Founder, Artlify",
     bio="Emmanuella Omeh is the founder of Artlify. She has spent three years on Upwork, where she has earned over $100,000 and trained more than 1,000 freelancers, and now leads Artlify's strategy for coaches and growing brands.",
     url="/about/",
-    same_as=[],  # add her LinkedIn / Instagram profile URLs here
+    same_as=["https://www.linkedin.com/in/emmanuella-omeh-5546641a6/"],  # add her Instagram profile URL here too
 )
 
 # Blog category hubs (topic clusters). A hub page is only built once it has at least one article.
