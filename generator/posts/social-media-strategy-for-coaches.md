@@ -176,7 +176,7 @@ For Coach of Success, we developed the content strategy and pillars and worked a
 
 The result: she landed her first five clients for her $5,000 coaching programme.
 
-Artlify's engagement model is monthly retainers for individual services or a combination, with a three-month minimum term. Ask for a clear scope before deciding what support is appropriate.
+Artlify works on one-off projects and on monthly retainers for one service or several, with a three-month minimum for retainers. Ask for a clear scope before deciding what support is appropriate.
 
 ## Frequently asked questions
 

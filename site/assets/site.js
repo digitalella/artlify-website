@@ -65,7 +65,7 @@
     var shown=form.querySelectorAll('[data-step=details] .sub:not([hidden])');
     form.querySelectorAll('[data-step=details] .sub').forEach(function(x){x.style.borderTop='';x.style.marginTop='';x.style.paddingTop=''});
     if(shown[0]){shown[0].style.borderTop='0';shown[0].style.marginTop='6px';shown[0].style.paddingTop='0'}
-    var monthly=true;
+    var monthly=val('engagement')!=='One-off project';
     var b=d.getElementById('f-budget'), prev=b.value;
     var opts=monthly?['Under $500 / month','$500 – $1,500 / month','$1,500 – $3,000 / month','$3,000 – $5,000 / month','$5,000+ / month','Not sure yet']
                     :['Under $500','$500 – $1,500','$1,500 – $3,000','$3,000 – $5,000','$5,000+','Not sure yet'];

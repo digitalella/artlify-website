@@ -168,8 +168,8 @@ WHY = [
 ]
 
 ENGAGEMENTS = [
-    ("Focused", "The Single Service", "One service on a monthly retainer, such as social media management, content or paid ads, with monthly reporting."),
-    ("Most popular", "The Service Combo", "Two or three services working together, such as content plus ads, managed by one team on one monthly retainer."),
+    ("Project", "The One-Off Project", "A defined piece of work, such as a strategy, a funnel, a launch or a campaign, delivered end to end."),
+    ("Most popular", "The Monthly Retainer", "One service or several, such as content plus ads, managed by one team with monthly reporting."),
     ("Full-stack", "The Growth Partnership", "Strategy, content, ads, funnels and automation combined into one growth system for your brand."),
 ]
 
@@ -183,10 +183,10 @@ IMPACT = [
 FAQS = [
     ("What does Artlify do?", "Artlify is a full-service marketing agency. We help coaches and growing brands with marketing strategy, social media management, content strategy and creation, copywriting, campaigns, paid ads, influencer and sponsorship marketing, funnel building and marketing automation."),
     ("Who do you work with?", "We work with coaches, consultants, course creators, e-commerce brands and growing service businesses. Our approach is personalised, so we tailor every engagement to the brand in front of us."),
-    ("Do you offer one-off projects or only retainers?", "We work on monthly retainers only, either for one service or a combination of services. We don't take one-off projects, because marketing results build over time. The minimum term is three months."),
+    ("Do you offer one-off projects or only retainers?", "Both. We take on one-off projects, such as a funnel build, a launch campaign or a content strategy, and monthly retainers for one service or several. Retainers have a three-month minimum."),
     ("How much do your marketing services cost?", "Our fees typically range from $500 to $10,000 (USD), depending on the services, platforms and volume of work. Depending on the engagement, we quote a monthly fee or a total for the agreed work. Share your goals through our enquiry form and we'll recommend the right mix and send a tailored proposal."),
     ("Is ad spend included in your fees?", "No. You pay Meta and other platforms directly from your own card, and the ad accounts stay in your name. Our fee covers strategy, creative, setup, management and reporting."),
-    ("What is the minimum contract length, and how do I cancel?", "The minimum contract is three months. After that, you can cancel with one month's notice."),
+    ("What is the minimum contract length, and how do I cancel?", "Retainers have a three-month minimum. After that, you can cancel with one month's notice. One-off projects run for the agreed scope."),
     ("How soon will I see results?", "It depends on the service. For paid ads, we review progress from the first 30 days. Social media usually takes around 90 days to show meaningful growth. We'll agree what to measure before we start."),
     ("Who owns my ad accounts and content if we stop working together?", "You keep your ad accounts, pages and all the content created for your brand. You also receive a complete folder of the marketing materials we created, plus your marketing strategy document."),
     ("Do you work with clients outside your country?", "Yes. We work remotely with clients around the world and plan communication around your time zone."),

@@ -175,10 +175,10 @@ Define the role and assess the candidate's actual skill coverage before assignin
 
 ### Can Artlify work alongside my existing team?
 
-Discuss a defined scope that fits around the responsibilities your team already covers. Artlify offers individual services on monthly retainers and combinations of services. The proposal should identify decision-makers, required inputs and any dependencies before the engagement begins.
+Discuss a defined scope that fits around the responsibilities your team already covers. Artlify offers one-off projects, single-service retainers and combinations of services. The proposal should identify decision-makers, required inputs and any dependencies before the engagement begins.
 
 ### Does Artlify offer one-off projects?
 
-Artlify's current engagement model does not include one-off projects. You can hire individual services on monthly retainers or a combination of services. The minimum contract is three months, with one month's cancellation notice subject to that minimum term.
+Yes. Artlify takes on one-off projects, such as a funnel build, a launch campaign or a content strategy, as well as monthly retainers for one service or several. Retainers have a three-month minimum, then one month's notice to cancel.
 
 [Book a free marketing audit](/work-with-us/) with Artlify to identify the support your business needs.

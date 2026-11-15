@@ -174,7 +174,7 @@ Keep a record of the decision so future results can be interpreted in context.
 
 Consider support when you need help with the planning, implementation or ongoing decisions and can fund the agreed scope. Compare what the provider will manage with the responsibilities that remain with you.
 
-Artlify offers Meta ads alongside content, social media and funnels, individually on monthly retainers or in combination. Its minimum term is three months.
+Artlify offers Meta ads alongside content, social media and funnels, as one-off projects or monthly retainers, individually or in combination. Retainers have a three-month minimum.
 
 Artlify's fees typically range from $500 to $10,000 (USD), depending on scope. Depending on the engagement, that's quoted as a monthly fee or as a total for the agreed work. Ad spend isn't included: you pay Meta directly from your own card, and the ad account stays in your name.
 

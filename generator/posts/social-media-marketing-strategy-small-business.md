@@ -184,6 +184,6 @@ Artlify typically uses an initial 90-day period to assess social media progress.
 
 ### Can Artlify manage content and ads together?
 
-Artlify offers social media, content, Meta ads and funnel services, individually on monthly retainers or in combination. Your proposal should define the services included and the input required from you. The minimum contract is three months, with one month's cancellation notice subject to that term.
+Artlify offers social media, content, Meta ads and funnel services, as one-off projects or monthly retainers, individually or in combination. Your proposal should define the services included and the input required from you. The minimum contract is three months, with one month's cancellation notice subject to that term.
 
 [Book a free marketing audit](/work-with-us/) with Artlify to review your social media strategy and next steps.

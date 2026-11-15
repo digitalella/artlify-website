@@ -169,7 +169,7 @@ For Coach of Success, we developed content strategy and pillars, ad creative dir
 
 The result: she landed her first five clients for her $5,000 coaching programme.
 
-Artlify provides individual services on monthly retainers or a combination of services. The minimum engagement is three months. You keep your ad accounts, pages and content, and at handover you receive a complete folder of materials plus your marketing strategy document.
+Artlify takes on funnel builds as one-off projects, or as part of a monthly retainer with a three-month minimum. You keep your ad accounts, pages and content, and at handover you receive a complete folder of materials plus your marketing strategy document.
 
 ## Frequently asked questions
 

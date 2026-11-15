@@ -310,7 +310,7 @@ def home(p):
 </div></section>
 
 <section class="s" style="padding-top:0"><div class="wrap">
-<div class="sec-head"><div><span class="eyebrow rv">Ways to work together</span><h2 class="rv d1">Support that fits <span class="c-te">your stage.</span></h2></div><p class="lead rv d2">Start with one service or combine several. Every option is a monthly retainer with a three-month minimum.</p></div>
+<div class="sec-head"><div><span class="eyebrow rv">Ways to work together</span><h2 class="rv d1">Support that fits <span class="c-te">your stage.</span></h2></div><p class="lead rv d2">Start with a one-off project, a monthly retainer or a full growth partnership. Retainers have a three-month minimum.</p></div>
 <div class="eng">{eng}</div>
 <div class="eng-foot rv"><p>Every engagement starts with understanding your goals.</p><a href="{p.href("/work-with-us/")}" class="btn b-le" style="border-color:var(--lemon)">Find Your Fit <span class="arr">→</span></a></div>
 </div></section>
@@ -653,7 +653,7 @@ def wwu(p):
 </div>
 <div class="step" data-step="goals"><fieldset><legend>What are your main goals right now?</legend>{opts("goals", goals)}</fieldset>
 <div class="fl" style="margin-top:24px"><label for="f-about">Tell us about your business <em>(optional)</em></label><textarea id="f-about" name="about" placeholder="What you sell, who you serve, what’s working and what isn’t…"></textarea></div></div>
-<div class="step" data-step="engagement"><fieldset><legend>How would you like to work together?</legend>{opts("engagement", ["Single service", "Combination of services", "Full growth partnership", "Not sure yet"], "radio")}</fieldset></div>
+<div class="step" data-step="engagement"><fieldset><legend>How would you like to work together?</legend>{opts("engagement", ["One-off project", "Monthly retainer", "Full growth partnership", "Not sure yet"], "radio")}</fieldset></div>
 <div class="step" data-step="contact"><span class="q">Where can we reach you?</span><p class="help">We review every enquiry and reply with the best next step.</p>
 <div class="fields">
 <div class="fl"><label for="f-name">Full name</label><input id="f-name" name="name" autocomplete="name"></div>

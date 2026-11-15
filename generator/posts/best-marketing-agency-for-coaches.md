@@ -117,7 +117,7 @@ For Coach of Success, the brief involved difficulty attracting qualified leads a
 
 The result: she landed her first five clients for her $5,000 coaching programme.
 
-Our founder has spent three years on Upwork and has trained more than 1,000 freelancers. Artlify offers monthly retainers with a three-month minimum term.
+Our founder has spent three years on Upwork and has trained more than 1,000 freelancers. Artlify takes on one-off projects and monthly retainers, with a three-month minimum for retainers.
 
 Fees typically range from $500 to $10,000 (USD), depending on scope. Ask for a scope showing exactly what your engagement includes.
 

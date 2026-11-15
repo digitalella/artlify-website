@@ -172,6 +172,6 @@ Inspect repeated customer questions, incomplete handovers, technical problems an
 
 ### Can Artlify help with only part of the funnel?
 
-Artlify offers individual services on monthly retainers or a combination of services. Discuss the specific responsibility you need covered and how it connects to work your team already manages. The minimum engagement is three months, with one month's cancellation notice subject to that term.
+Artlify offers one-off projects, single-service retainers and combinations of services. Discuss the specific responsibility you need covered and how it connects to work your team already manages. The minimum engagement is three months, with one month's cancellation notice subject to that term.
 
 [Book a free marketing audit](/work-with-us/) with Artlify to review your customer journey and marketing funnel.

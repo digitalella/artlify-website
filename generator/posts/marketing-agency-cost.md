@@ -20,7 +20,7 @@ This guide helps coaches and e-commerce founders compare agency fees without tre
 
 Artlify's fees typically range from $500 to $10,000 (USD), depending on scope. Depending on the engagement, that's quoted as a monthly fee or as a total for the agreed work.
 
-Artlify offers individual services on monthly retainers, or a combination of services. The minimum contract is three months, with one month's cancellation notice subject to that minimum term.
+Artlify offers one-off projects, monthly retainers for a single service, or a combination of services. Retainers have a three-month minimum, with one month's cancellation notice after that.
 
 Avoid assuming that the bottom of the range includes every service. Ask for a proposal that identifies your priorities, the deliverables included and the work your team will still handle.
 
@@ -122,7 +122,7 @@ Your final review should answer three practical questions: What are we buying? W
 
 ### How does Artlify price its services?
 
-Artlify offers monthly retainers for individual services or a combination of services. Fees typically range from $500 to $10,000 (USD), quoted monthly or as a total for the agreed work. Request a proposal specifying the exact fee, deliverables and separately funded expenses for your business.
+Artlify offers one-off projects and monthly retainers for one service or several. Fees typically range from $500 to $10,000 (USD), quoted monthly or as a total for the agreed work. Request a proposal specifying the exact fee, deliverables and separately funded expenses for your business.
 
 ### Is ad spend included in the agency fee?
 
@@ -134,6 +134,6 @@ Artlify's minimum contract length is three months. Cancellation requires one mon
 
 ### Can I hire Artlify for only one service?
 
-Yes, Artlify offers individual services on monthly retainers, as well as combinations of services. The current model does not include one-off projects. Explain the responsibility you need covered so the proposal can define a suitable scope and the input required from your team.
+Yes. You can hire Artlify for a single service on a monthly retainer, a combination of services, or a one-off project. Explain the responsibility you need covered so the proposal can define a suitable scope and the input required from your team.
 
 [Book a free marketing audit](/work-with-us/) with Artlify to discuss your goals and the scope your business needs.
