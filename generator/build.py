@@ -443,13 +443,14 @@ def about(p):
 REAL_CASES = {
     0: ("Coach of Success", "A coach",
         "She wasn't attracting qualified leads, and her social media account wasn't set up to turn followers into clients.",
-        "Built her content strategy and content pillars, then a full marketing funnel: ad creative direction, a sales landing page, lead nurturing and the email copy that leads to conversion."),
+        "Built her content strategy and content pillars, then a full marketing funnel: ad creative direction, a sales landing page, lead nurturing and the email copy that leads to conversion.",
+        "She landed her first five clients for her $5,000 coaching programme."),
 }
 def case_body(i):
     if i in REAL_CASES:
-        name, who, ch, did = REAL_CASES[i]
+        name, who, ch, did, res = REAL_CASES[i]
         return (f'<h3>{E(name)}</h3><dl><dt>Client</dt><dd>{E(who)}</dd><dt>Challenge</dt><dd>{E(ch)}</dd><dt>What we did</dt><dd>{E(did)}</dd>'
-                '<dt>Results</dt><dd class="phx">[Outcome and timeframe, to be added]</dd></dl>')
+                f'<dt>Results</dt><dd>{E(res)}</dd></dl>')
     return ('<h3>[Client / brand name]</h3><dl><dt>Challenge</dt><dd class="phx">[What the client needed]</dd><dt>What we did</dt>'
             '<dd class="phx">[Services and work delivered]</dd><dt>Results</dt><dd class="phx">[Verified results, with permission]</dd></dl>')
 
@@ -540,7 +541,7 @@ def blog_index(p):
     start = ('<div class="sec-head" style="margin-top:70px"><div><span class="eyebrow">Start here</span><h2 style="margin-top:14px">Our complete guides</h2></div></div>'
              f'<div class="cards">{"".join(post_card(p, b, i) for i, b in enumerate(pillars))}</div>') if pillars else ""
     return phero(p, "The Artlify blog", 'Marketing ideas you can <span class="c-or">actually use.</span>',
-                 ["Practical guides on hiring an agency, social media, Meta ads, funnels and automation, for coaches and growing brands in Nigeria, the UK and the US."],
+                 ["Practical guides on hiring an agency, social media, Meta ads, funnels and automation, for coaches and growing brands in the US, the UK and beyond."],
                  [("Home", "/"), ("Blog", "/blog/")], decos=(5, 3, 2)) + f'''
 <section class="s" style="padding-top:10px"><div class="wrap">
 {cat_nav(p)}

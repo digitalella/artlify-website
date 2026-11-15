@@ -485,3 +485,4 @@ ul.prose{list-style:none;display:grid;gap:12px;margin:0 0 20px}.prose ul{margin:
 .related .svc{grid-column:auto;min-height:260px}
 .toc ol{list-style:none;padding-left:0}
 @media (max-width:640px){.byline span:nth-child(2n){display:none}.byline{gap:4px 14px}}
+@media (max-width:640px){.prose table{font-size:14px}.prose th,.prose td{padding:8px}}

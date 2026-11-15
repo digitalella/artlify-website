@@ -64,7 +64,7 @@ For a coaching business, discuss whether the scope needs to cover:
 
 For an e-commerce business, discuss product content, advertising, the purchase journey and customer follow-up.
 
-At Artlify, our work covers [Meta ads](/services/paid-ads/), [social media](/services/social-media-management/), [content](/services/content-strategy/) and [funnels](/services/funnel-building/) for coaches and e-commerce brands in Nigeria, the UK and the US.
+At Artlify, our work covers [Meta ads](/services/paid-ads/), [social media](/services/social-media-management/), [content](/services/content-strategy/) and [funnels](/services/funnel-building/) for coaches and e-commerce brands in the US, the UK and internationally.
 
 When reviewing a proposal, follow the customer journey. What happens after someone sees a post, clicks an advert or submits a form? Ask who owns each next step.
 
@@ -82,7 +82,7 @@ A useful case study discussion should cover:
 
 If someone shares a revenue screenshot, ask what costs sit behind it. If they share lead numbers, ask how lead quality was assessed.
 
-Here's how one of our own projects maps to those questions. Coach of Success came to us because she wasn't attracting qualified leads, and her social media account wasn't set up to turn followers into clients. The objective was a steady flow of better-fit enquiries. We built her content strategy and content pillars, then a full marketing funnel: ad creative direction, a sales landing page, lead nurturing and the email copy that leads to conversion. You can see the project on our [Work page](/work/).
+Here's how one of our own projects maps to those questions. Coach of Success came to us because she wasn't attracting qualified leads, and her social media account wasn't set up to turn followers into clients. The objective was a steady flow of better-fit enquiries. We built her content strategy and content pillars, then a full marketing funnel: ad creative direction, a sales landing page, lead nurturing and the email copy that leads to conversion. She went on to land her first five clients for her $5,000 coaching programme. You can see the project on our [Work page](/work/).
 
 Relevant experience can include a similar offer, buying process or operational challenge. Ask the agency to explain which lessons apply to your business and what it would need to investigate.
 
@@ -99,7 +99,7 @@ Request clarity on:
 - Website or landing page work.
 - Any setup or additional project fees.
 
-For reference, Artlify's monthly retainers range from about $500 to $10,000, depending on the services, platforms and volume of work. Ad spend is paid separately, directly to the ad platforms.
+For reference, Artlify's fees typically range from $500 to $10,000 (USD), depending on scope, quoted as a monthly fee or as a total for the agreed work. Ad spend isn't included: you pay Meta directly from your own card, and the ad account stays in your name.
 
 Avoid comparing proposals by their final price alone. Check whether they include the same responsibilities, deliverables and level of support.
 
@@ -187,7 +187,7 @@ Confirm:
 - What notice is required to end the engagement.
 - What the handover includes.
 
-As an example, Artlify's minimum contract is three months, and after that you can cancel with one month's notice. When we finish working together, you receive a complete folder of all the marketing materials we created, plus your marketing strategy document.
+As an example, Artlify's minimum contract is three months, and after that you can cancel with one month's notice. You keep your ad accounts, pages and all the content created for your brand, and when we finish you receive a complete folder of the marketing materials plus your marketing strategy document.
 
 Make sure the written agreement reflects what was discussed during the sales process.
 
