@@ -12,7 +12,7 @@ SITE = {
     "phone": "+2348142133113",            # WhatsApp + calls, international format
     "phone_display": "+234 814 213 3113",
     "instagram": "https://www.instagram.com/artlifyagency",
-    "linkedin": "",         # company page, e.g. "https://linkedin.com/company/artlify"
+    "linkedin": "https://www.linkedin.com/company/artlify/",
     "founder_linkedin": "https://www.linkedin.com/in/emmanuella-omeh-5546641a6/",
     "ga_id": "G-13HFLWTRSM",       # Google Analytics 4 measurement ID
     "tally_id": "VpEyD6",         # e.g. "w4XyZ1" from https://tally.so/r/w4XyZ1
