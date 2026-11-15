@@ -55,7 +55,11 @@ def org_schema():
          "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Marketing services", "itemListElement": [
              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": s["name"], "url": f'{BASE}/services/{s["slug"]}/'}} for s in SERVICES]}}
     if same: o["sameAs"] = same
-    if SITE["email"]: o["contactPoint"] = {"@type": "ContactPoint", "contactType": "sales", "email": SITE["email"], "availableLanguage": ["English"]}
+    if SITE["email"] or SITE.get("phone"):
+        cp = {"@type": "ContactPoint", "contactType": "sales", "availableLanguage": ["English"]}
+        if SITE["email"]: cp["email"] = SITE["email"]
+        if SITE.get("phone"): cp["telephone"] = SITE["phone"]
+        o["contactPoint"] = cp
     return o
 
 def crumbs_schema(items):
@@ -101,6 +105,7 @@ SOC = {
  "ig": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
  "li": '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4V21H3zM9.5 9.75h3.8v1.6h.06c.53-1 1.84-2.06 3.79-2.06 4.05 0 4.8 2.67 4.8 6.13V21h-4v-4.98c0-1.19-.02-2.72-1.66-2.72-1.66 0-1.92 1.3-1.92 2.63V21h-4z"/></svg>',
  "em": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>',
+ "wa": '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.25 8.25 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>',
 }
 
 def footer(p):
@@ -108,6 +113,10 @@ def footer(p):
     em = ("mailto:" + SITE["email"]) if SITE["email"] else p.href("/work-with-us/")
     ext = lambda u: ' target="_blank" rel="noopener"' if u.startswith("http") else ""
     svc = "".join(f'<a href="{p.href("/services/" + s["slug"] + "/")}">{E(s["name"])}</a>' for s in SERVICES[:6])
+    ph = SITE.get("phone", ""); wa = "https://wa.me/" + ph.lstrip("+") if ph else ""
+    wa_icon = f'<a href="{wa}" target="_blank" rel="noopener" aria-label="Chat with Artlify on WhatsApp">{SOC["wa"]}</a>' if ph else ""
+    phone_line = (f'<p class="f-contact">Call or WhatsApp: <a href="tel:{ph}">{E(SITE["phone_display"])}</a><br>Email: <a href="mailto:{E(SITE["email"])}">{E(SITE["email"])}</a></p>') if ph else ""
+    wa_float = (f'<a class="wa-float" href="{wa}?text=' + quote("Hi Artlify, I'd like to talk about growing my business.") + f'" target="_blank" rel="noopener" aria-label="Chat with Artlify on WhatsApp">{SOC["wa"]}</a>') if ph else ""
     return f'''<footer class="ftr"><div class="wrap">
 <div class="f-cta">
 <span class="eyebrow" style="color:#B3A894">Let’s grow together</span>
@@ -118,7 +127,7 @@ def footer(p):
 </div>
 <div class="f-grid">
 <div class="f-brand">{logo(p, True)}<p>A full-service marketing agency helping coaches and growing brands with strategy, social, content, ads, funnels and automation.</p>
-<div class="socials"><a href="{ig}"{ext(ig)} aria-label="Artlify on Instagram">{SOC["ig"]}</a><a href="{li}"{ext(li)} aria-label="Artlify on LinkedIn">{SOC["li"]}</a><a href="{em}" aria-label="Email Artlify">{SOC["em"]}</a></div></div>
+<div class="socials"><a href="{ig}"{ext(ig)} aria-label="Artlify on Instagram">{SOC["ig"]}</a><a href="{li}"{ext(li)} aria-label="Artlify on LinkedIn">{SOC["li"]}</a><a href="{em}" aria-label="Email Artlify">{SOC["em"]}</a>{wa_icon}</div>{phone_line}</div>
 <div class="f-col big"><h4>Explore</h4><a href="{p.href("/about/")}">About</a><a href="{p.href("/services/")}">Services</a><a href="{p.href("/work/")}">Work</a><a href="{p.href("/blog/")}">Blog</a><a href="{p.href("/work-with-us/")}">Contact</a></div>
 <div class="f-col sm"><h4>Services</h4>{svc}<a href="{p.href("/services/")}">All services →</a></div>
 <div class="f-col sm"><h4>Studio</h4><a href="{p.href("/work-with-us/")}">Work With Us</a><a href="{p.href("/faq/")}">FAQ</a><a href="{p.href("/terms/")}">Terms &amp; Conditions</a><a href="{p.href("/privacy/")}">Privacy Policy</a></div>
@@ -126,7 +135,8 @@ def footer(p):
 <div class="f-word" aria-hidden="true">{"".join(f"<span>{c}</span>" for c in "Artlify")}</div>
 </div>
 <div class="wrap f-bot"><span>© 2026 Artlify Agency. All rights reserved.</span><nav aria-label="Legal"><a href="{p.href("/terms/")}">Terms &amp; Conditions</a><a href="{p.href("/privacy/")}">Privacy Policy</a><a href="#" id="toTop">Back to top ↑</a></nav></div>
-</footer>'''
+</footer>
+{wa_float}'''
 
 PAGES = []  # (path, priority, indexable)
 
@@ -528,7 +538,8 @@ def wwu(p):
 <section class="s" style="padding-top:10px"><div class="wrap wwu">
 <aside class="wwu-side"><div class="side-card"><h2>What happens next</h2><ol>{"".join(f"<li><b>0{i+1}</b>{E(h)}</li>" for i, (h, t) in enumerate(PROCESS))}</ol></div>
 <p style="margin-top:20px;font-size:15.5px;color:var(--muted)">Have a question first? <a href="{p.href("/faq/")}" class="txtlink" style="color:var(--ink)">Read the FAQ <span>→</span></a></p>
-{f'<p style="margin-top:12px;font-size:15.5px;color:var(--muted)">Prefer email? <a href="mailto:{E(SITE["email"])}" class="txtlink" style="color:var(--ink)">{E(SITE["email"])}</a></p>' if SITE["email"] else ""}</aside>
+{f'<p style="margin-top:12px;font-size:15.5px;color:var(--muted)">Prefer email? <a href="mailto:{E(SITE["email"])}" class="txtlink" style="color:var(--ink)">{E(SITE["email"])}</a></p>' if SITE["email"] else ""}
+{f'<p style="margin-top:12px;font-size:15.5px;color:var(--muted)">Or WhatsApp us: <a href="https://wa.me/{SITE["phone"].lstrip("+")}" target="_blank" rel="noopener" class="txtlink" style="color:var(--ink)">{E(SITE["phone_display"])}</a></p>' if SITE.get("phone") else ""}</aside>
 <div class="fbox" id="fbox" data-tally="{E(SITE["tally_id"])}"><div class="tally-wrap" id="tallyWrap" hidden></div>{form}</div>
 </div></section>'''
 
