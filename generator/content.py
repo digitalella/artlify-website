@@ -13,9 +13,10 @@ SITE = {
     "phone_display": "+234 814 213 3113",
     "instagram": "https://www.instagram.com/artlifyagency",
     "linkedin": "",         # e.g. "https://linkedin.com/company/artlify"
+    "ga_id": "G-13HFLWTRSM",       # Google Analytics 4 measurement ID
     "tally_id": "VpEyD6",         # e.g. "w4XyZ1" from https://tally.so/r/w4XyZ1
     "founded": "2024",
-    "updated": "2026-11-13",
+    "updated": "2026-11-15",
 }
 
 # ---------------------------------------------------------------- SERVICES

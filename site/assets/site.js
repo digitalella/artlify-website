@@ -46,6 +46,22 @@
     i.allow='autoplay; encrypted-media; picture-in-picture; fullscreen'; i.allowFullscreen=true;
     f.replaceWith(i);
   })});
+
+  /* cookie consent + analytics events */
+  var ck=d.getElementById('cookie');
+  if(ck){var saved=null;try{saved=localStorage.getItem('artlify_consent')}catch(e){}
+    if(!saved) ck.hidden=false;
+    ck.querySelectorAll('[data-consent]').forEach(function(b){b.addEventListener('click',function(){
+      var v=b.dataset.consent;try{localStorage.setItem('artlify_consent',v)}catch(e){}
+      if(window.gtag) gtag('consent','update',{analytics_storage:v}); ck.hidden=true;})});}
+  function ev(name,params){if(window.gtag) gtag('event',name,params||{});}
+  d.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a');if(!a)return;var h=a.getAttribute('href')||'';
+    if(h.indexOf('wa.me')>-1) ev('contact',{method:'whatsapp'});
+    else if(h.indexOf('mailto:')===0) ev('contact',{method:'email'});
+    else if(h.indexOf('tel:')===0) ev('contact',{method:'phone'});
+    else if(h.indexOf('/work-with-us')>-1) ev('cta_click',{link_text:(a.textContent||'').trim().slice(0,40)});});
+  window.addEventListener('message',function(m){try{var dt=typeof m.data==='string'?JSON.parse(m.data):m.data;
+    if(dt&&dt.event==='Tally.FormSubmitted') ev('generate_lead',{form_id:(dt.payload&&dt.payload.formId)||'tally'});}catch(e){}});
   var tt=d.getElementById('toTop'); if(tt) tt.addEventListener('click',function(e){e.preventDefault();scrollTo({top:0,behavior:'smooth'})});
 
   /* ================= enquiry form ================= */
@@ -122,7 +138,7 @@
     if(hosted){
       next.disabled=true; next.textContent='Sending…'; data['form-name']='enquiry';
       fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(data).toString()})
-        .then(function(r){if(!r.ok)throw 0;finish()}).catch(fail);
+        .then(function(r){if(!r.ok)throw 0;if(window.gtag)gtag('event','generate_lead',{form_id:'enquiry'});finish()}).catch(fail);
     } else finish();
   });
   /* preselect a service from ?service= */

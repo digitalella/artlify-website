@@ -140,6 +140,24 @@ def footer(p):
 
 PAGES = []  # (path, priority, indexable)
 
+
+GA_REGIONS = ["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO","GB","CH"]
+def ga_head():
+    gid = SITE.get("ga_id")
+    if not gid or MODE != "netlify": return ""
+    return (f'<script async src="https://www.googletagmanager.com/gtag/js?id={gid}"></script>\n'
+            "<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}"
+            "gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500,region:" + json.dumps(GA_REGIONS) + "});"
+            "gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'granted'});"
+            "try{var c=localStorage.getItem('artlify_consent');if(c)gtag('consent','update',{analytics_storage:c});}catch(e){}"
+            f"gtag('js',new Date());gtag('config','{gid}');</script>")
+
+def consent_banner():
+    if not SITE.get("ga_id") or MODE != "netlify": return ""
+    return ('<div class="cookie" id="cookie" role="region" aria-label="Cookie choices" hidden><p>We use analytics cookies to understand how visitors use this site. '
+            '<a href="/privacy/">Privacy policy</a></p><div class="cookie-b"><button type="button" class="btn" data-consent="denied">Decline</button>'
+            '<button type="button" class="btn b-ink" data-consent="granted">Accept</button></div></div>')
+
 def write(path, title, desc, body, active="", schema=None, og_type="website", noindex=False, priority="0.7", preload_img=None, lastmod=None):
     p = Page(path)
     css_v = sha(os.path.join(ROOT, "src/assets/site.css")); js_v = sha(os.path.join(ROOT, "src/assets/site.js"))
@@ -182,6 +200,7 @@ def write(path, title, desc, body, active="", schema=None, og_type="website", no
 {pre}
 <link rel="stylesheet" href="{p.asset("site.css")}?v={css_v}">
 <script type="application/ld+json">{ld}</script>
+{ga_head()}
 </head>
 <body>
 {header(p, active)}
@@ -189,6 +208,7 @@ def write(path, title, desc, body, active="", schema=None, og_type="website", no
 {body(p)}
 </main>
 {footer(p)}
+{consent_banner()}
 <script src="{p.asset("site.js")}?v={js_v}" defer></script>
 </body>
 </html>
@@ -739,6 +759,23 @@ def faq_page(p):
     return phero(p, "FAQ", 'Questions, <span class="c-or">answered.</span>', ["Everything you need to know about working with Artlify."], [("Home", "/"), ("FAQ", "/faq/")], decos=(8, 3, 5)) + f'''
 <section class="s" style="padding-top:10px"><div class="wrap faq"><div class="side"><p class="lead">Can’t find what you’re looking for?</p><div class="cta-row" style="margin-top:22px"><a href="{p.href("/work-with-us/")}" class="btn b-or">Ask Us Directly <span class="arr">→</span></a></div></div><div>{faq_html(FAQS)}</div></div></section>'''
 
+PRIVACY = [
+    ("Who we are", ["Artlify (Artlify Agency) is a marketing agency. This policy explains what personal information we collect through artlifyagency.com and how we use it. If you have questions, email us at {email}."]),
+    ("What we collect", ["<strong>Information you send us.</strong> When you fill in our enquiry or free audit forms, we receive the details you enter, such as your name, email address, location, business details and answers to our questions. Our forms are provided by Tally (tally.so), so your answers are processed by Tally on our behalf.",
+                         "<strong>Messages.</strong> If you email us or contact us on WhatsApp, we receive your contact details and anything you write.",
+                         "<strong>Analytics.</strong> With your consent, we use Google Analytics 4 to understand how visitors use the site, such as which pages are viewed, roughly where visitors are located and which device they use. Google Analytics uses cookies for this. In the UK, EU and Switzerland, these cookies stay off unless you click Accept on our cookie banner.",
+                         "<strong>Embedded video.</strong> Our video testimonial uses YouTube's privacy-enhanced mode and only loads when you press play. Once it plays, YouTube may set its own cookies."]),
+    ("How we use it", ["We use your information to reply to your enquiry, prepare your free audit or proposal, book calls, deliver our services if you become a client, and improve our website. We don't sell your personal information."]),
+    ("How long we keep it", ["We keep enquiry details for as long as we need them to respond and follow up, and client records for as long as our working relationship and any legal or accounting obligations require. Analytics data is kept according to our Google Analytics retention settings."]),
+    ("Your choices and rights", ["You can change your cookie choice at any time by clearing this site's data in your browser, which brings the banner back. Depending on where you live, including under UK and EU data protection law, you may have the right to access, correct or delete your personal information, or to object to how we use it. To make a request, email {email}."]),
+    ("Changes to this policy", ["We may update this policy from time to time. The latest version will always be on this page. Last updated: {updated}."]),
+]
+
+def privacy_page(p):
+    secs = "".join(f'<h2>{E(h)}</h2>' + "".join(f"<p>{t.format(email=SITE['email'], updated=fdate(SITE['updated']))}</p>" for t in ps) for h, ps in PRIVACY)
+    return (f'<section class="ph"><div class="wrap">{crumbs_html(p, [("Home", "/"), ("Privacy Policy", "/privacy/")])}<span class="pill"><i></i>Legal</span><h1>Privacy Policy</h1></div></section>'
+            f'<section class="s" style="padding-top:0"><div class="wrap"><div class="article prose">{secs}</div></div></section>')
+
 def legal(name):
     return lambda p: f'<section class="ph"><div class="wrap">{crumbs_html(p, [("Home", "/"), (name, "/")])}<span class="pill"><i></i>Legal</span><h1>{name}</h1></div></section><section class="s" style="padding-top:0"><div class="wrap legal"><p>[{name} content to be added before launch.]</p></div></section>'
 
@@ -777,7 +814,7 @@ def build():
     write("/faq/", "FAQ | Working With Artlify Marketing Agency",
           "Answers to common questions about Artlify: services, who we work with, pricing, ad spend, timelines and how to get started.",
           faq_page, "", [crumbs_schema([("Home", "/"), ("FAQ", "/faq/")]), faq_schema(FAQS)], priority="0.6")
-    write("/privacy/", "Privacy Policy | Artlify", "How Artlify Agency collects, uses and protects personal information shared through this website.", legal("Privacy Policy"), noindex=True)
+    write("/privacy/", "Privacy Policy | Artlify", "How Artlify Agency collects, uses and protects personal information shared through this website.", privacy_page, noindex=True)
     write("/terms/", "Terms & Conditions | Artlify", "The terms and conditions for using the Artlify Agency website and working with Artlify.", legal("Terms & Conditions"), noindex=True)
     write("/404", "Page not found | Artlify", "Sorry, this page could not be found. Explore Artlify’s marketing services, work and blog instead.", e404, noindex=True)
 
