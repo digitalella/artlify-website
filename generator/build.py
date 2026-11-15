@@ -310,7 +310,7 @@ def home(p):
 </div></section>
 
 <section class="s" style="padding-top:0"><div class="wrap">
-<div class="sec-head"><div><span class="eyebrow rv">Ways to work together</span><h2 class="rv d1">Support that fits <span class="c-te">your stage.</span></h2></div><p class="lead rv d2">Whether you need one powerful project or a long-term growth partner, there is a way to work with Artlify.</p></div>
+<div class="sec-head"><div><span class="eyebrow rv">Ways to work together</span><h2 class="rv d1">Support that fits <span class="c-te">your stage.</span></h2></div><p class="lead rv d2">Start with one service or combine several. Every option is a monthly retainer with a three-month minimum.</p></div>
 <div class="eng">{eng}</div>
 <div class="eng-foot rv"><p>Every engagement starts with understanding your goals.</p><a href="{p.href("/work-with-us/")}" class="btn b-le" style="border-color:var(--lemon)">Find Your Fit <span class="arr">→</span></a></div>
 </div></section>
@@ -440,11 +440,24 @@ def about(p):
 ''' + band(p, 'Let’s build something <span class="c-le">people remember.</span>')
 
 # =================================================================== WORK
+REAL_CASES = {
+    0: ("Coach of Success", "A coach",
+        "She wasn't attracting qualified leads, and her social media account wasn't set up to turn followers into clients.",
+        "Built her content strategy and content pillars, then a full marketing funnel: ad creative direction, a sales landing page, lead nurturing and the email copy that leads to conversion."),
+}
+def case_body(i):
+    if i in REAL_CASES:
+        name, who, ch, did = REAL_CASES[i]
+        return (f'<h3>{E(name)}</h3><dl><dt>Client</dt><dd>{E(who)}</dd><dt>Challenge</dt><dd>{E(ch)}</dd><dt>What we did</dt><dd>{E(did)}</dd>'
+                '<dt>Results</dt><dd class="phx">[Outcome and timeframe, to be added]</dd></dl>')
+    return ('<h3>[Client / brand name]</h3><dl><dt>Challenge</dt><dd class="phx">[What the client needed]</dd><dt>What we did</dt>'
+            '<dd class="phx">[Services and work delivered]</dd><dt>Results</dt><dd class="phx">[Verified results, with permission]</dd></dl>')
+
 def work(p):
-    cases = [("social", "Social Media", "orange", 2), ("ads", "Paid Ads", "teal", 6), ("content", "Content", "lemon", 7),
+    cases = [("funnels", "Content & Funnels", "orange", 2), ("ads", "Paid Ads", "teal", 6), ("content", "Content", "lemon", 7),
              ("funnels", "Funnels & Automation", "sage", 8), ("social", "Social Media", "peach", 3), ("strategy", "Strategy", "gold", 5)]
     cards = "".join(f'''<article class="card rv" data-cat="{k}"><div class="cv" style="--bg:{COL[c][0]}"><span class="tag">{E(n)}</span>{shape(p, sh, cls="shape")}<span class="g"{' style="color:var(--cream)"' if COL[c][1] else ""}>0{i+1}</span></div>
-<div class="bd"><h3>[Client / brand name]</h3><dl><dt>Challenge</dt><dd class="phx">[What the client needed]</dd><dt>What we did</dt><dd class="phx">[Services and work delivered]</dd><dt>Results</dt><dd class="phx">[Verified results, with permission]</dd></dl></div></article>''' for i, (k, n, c, sh) in enumerate(cases))
+<div class="bd">{case_body(i)}</div></article>''' for i, (k, n, c, sh) in enumerate(cases))
     return phero(p, "Our work", 'Marketing that <span class="c-or">moves the needle.</span>',
                  ["Selected projects across social media, content, paid ads, funnels and automation for coaches and growing brands."],
                  [("Home", "/"), ("Work", "/work/")], decos=(7, 3, 6)) + f'''
@@ -638,7 +651,7 @@ def wwu(p):
 </div>
 <div class="step" data-step="goals"><fieldset><legend>What are your main goals right now?</legend>{opts("goals", goals)}</fieldset>
 <div class="fl" style="margin-top:24px"><label for="f-about">Tell us about your business <em>(optional)</em></label><textarea id="f-about" name="about" placeholder="What you sell, who you serve, what’s working and what isn’t…"></textarea></div></div>
-<div class="step" data-step="engagement"><fieldset><legend>How would you like to work together?</legend>{opts("engagement", ["One-off project", "Monthly retainer", "Full growth partnership", "Not sure yet"], "radio")}</fieldset></div>
+<div class="step" data-step="engagement"><fieldset><legend>How would you like to work together?</legend>{opts("engagement", ["Single service", "Combination of services", "Full growth partnership", "Not sure yet"], "radio")}</fieldset></div>
 <div class="step" data-step="contact"><span class="q">Where can we reach you?</span><p class="help">We review every enquiry and reply with the best next step.</p>
 <div class="fields">
 <div class="fl"><label for="f-name">Full name</label><input id="f-name" name="name" autocomplete="name"></div>

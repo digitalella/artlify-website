@@ -104,7 +104,7 @@ SERVICES = [
          platforms=["Meta (Facebook & Instagram)", "TikTok", "LinkedIn", "Google", "YouTube"],
          faqs=[("How much should I spend on ads?", "It depends on your goals, offer and market. We recommend a starting budget during strategy and scale based on results."),
                ("Is the ad spend included in your fee?", "No. Ad spend is paid directly to the platform, separate from our management fee."),
-               ("How soon will I see results?", "Campaigns need time to learn and be optimised. We share early signals quickly and report on performance regularly.")]),
+               ("How soon will I see results?", "We review paid ads from the first 30 days, once campaigns have had time to learn. From there we optimise and report on performance regularly.")]),
     dict(slug="influencer-sponsorships", name="Influencer & Sponsorships", short="Sponsorships", icon="puzzle", color="sage",
          title="Influencer Marketing & Brand Sponsorships | Artlify",
          h1="Partnerships that put your brand in front of the right audience.",
@@ -168,8 +168,8 @@ WHY = [
 ]
 
 ENGAGEMENTS = [
-    ("Project", "The One-Off Project", "A defined piece of work — a strategy, a funnel, a launch or a campaign — delivered end to end."),
-    ("Most popular", "The Monthly Retainer", "Ongoing social media, content or ads management with consistent support and monthly reporting."),
+    ("Focused", "The Single Service", "One service on a monthly retainer, such as social media management, content or paid ads, with monthly reporting."),
+    ("Most popular", "The Service Combo", "Two or three services working together, such as content plus ads, managed by one team on one monthly retainer."),
     ("Full-stack", "The Growth Partnership", "Strategy, content, ads, funnels and automation combined into one growth system for your brand."),
 ]
 
@@ -183,9 +183,12 @@ IMPACT = [
 FAQS = [
     ("What does Artlify do?", "Artlify is a full-service marketing agency. We help coaches and growing brands with marketing strategy, social media management, content strategy and creation, copywriting, campaigns, paid ads, influencer and sponsorship marketing, funnel building and marketing automation."),
     ("Who do you work with?", "We work with coaches, consultants, course creators, e-commerce brands and growing service businesses. Our approach is personalised, so we tailor every engagement to the brand in front of us."),
-    ("Do you offer one-off projects or only retainers?", "Both. You can work with us on a single project, an ongoing monthly retainer, or a full growth partnership that combines several services."),
-    ("How much do your marketing services cost?", "Pricing depends on the services, scope, platforms and volume of work. Share your goals through our enquiry form and we will recommend the right package and send a tailored proposal."),
+    ("Do you offer one-off projects or only retainers?", "We work on monthly retainers only, either for one service or a combination of services. We don't take one-off projects, because marketing results build over time. The minimum term is three months."),
+    ("How much do your marketing services cost?", "Our monthly retainers range from about $500 to $10,000, depending on the services, platforms and volume of work. Share your goals through our enquiry form and we'll recommend the right mix and send a tailored proposal."),
     ("Is ad spend included in your fees?", "No. Ad spend is paid directly to the ad platforms. Our fee covers strategy, creative, setup, management and reporting."),
+    ("What is the minimum contract length, and how do I cancel?", "The minimum contract is three months. After that, you can cancel with one month's notice."),
+    ("How soon will I see results?", "It depends on the service. For paid ads, we review progress from the first 30 days. Social media usually takes around 90 days to show meaningful growth. We'll agree what to measure before we start."),
+    ("What do I receive if we stop working together?", "You receive a complete folder of all the marketing materials we created for you, plus your marketing strategy document."),
     ("Do you work with clients outside your country?", "Yes. We work remotely with clients around the world and plan communication around your time zone."),
     ("How quickly can we get started?", "After our strategy call and your approval of the proposal, we schedule onboarding. Start dates depend on scope and current capacity."),
     ("How do we get started?", "Fill in the Work With Us form. We review every enquiry, then invite suitable brands to a strategy call to talk through goals and next steps."),
