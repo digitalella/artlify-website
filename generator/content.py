@@ -236,7 +236,7 @@ PROJECTS = [
          challenge="Sales were stalling. The brand had limited visibility, ads that weren't converting, a WooCommerce store with weak tracking, generic offers and an underused email list.",
          did="We repositioned the brand, restructured offers and pricing, moved the store to Shopify with Meta Pixel tracking and set up Omnisend email. Then we ran Meta ad campaigns, brand campaigns and a full email system.",
          stats=[("₦123.77M", "in sales, Dec 2025 to May 2026"), ("+118%", "sales on the previous period"), ("2×", "Instagram followers, 43K to 86.2K")],
-         gallery=["bella-before", "bella-after", "bella-reel"]),
+         gallery=["bella-before", "bella-after", "bella-reel"], video="-pIeQSBXqBU"),
     dict(slug="onyi-africa", name="Onyi Africa", kind="Our in-house fashion brand", tag="Content, Meta ads & email", color="orange",
          cats="content ads", cover="onyi-meta-ads",
          challenge="We started from zero: no brand recognition, no marketing system and no funnel. We built Onyi Africa ourselves to prove our playbook with our own money first.",

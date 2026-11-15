@@ -37,6 +37,15 @@
     })});
   });
 
+
+  /* YouTube facade: load the player only when clicked */
+  d.querySelectorAll('.yt-facade').forEach(function(f){f.addEventListener('click',function(){
+    var i=d.createElement('iframe');
+    i.src='https://www.youtube-nocookie.com/embed/'+f.dataset.yt+'?autoplay=1&playsinline=1&rel=0&modestbranding=1';
+    i.title='Bella Books video testimonial';
+    i.allow='autoplay; encrypted-media; picture-in-picture; fullscreen'; i.allowFullscreen=true;
+    f.replaceWith(i);
+  })});
   var tt=d.getElementById('toTop'); if(tt) tt.addEventListener('click',function(e){e.preventDefault();scrollTo({top:0,behavior:'smooth'})});
 
   /* ================= enquiry form ================= */

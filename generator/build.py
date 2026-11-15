@@ -294,7 +294,7 @@ def case_card(p, pr, i):
 <div class="case-cv" style="--bg:{bg}">{wimg(p, pr["cover"], ALT.get(pr["cover"], pr["name"]), sizes="(max-width: 900px) 100vw, 45vw")}</div>
 <div class="case-bd"><span class="tag">{E(pr["tag"])}</span><h2>{E(pr["name"])}</h2><p class="kind">{E(pr["kind"])}</p>
 <dl><dt>The challenge</dt><dd>{E(pr["challenge"])}</dd><dt>What we did</dt><dd>{E(pr["did"])}</dd></dl>
-{st}{f'<ul class="gal">{gal}</ul>' if gal else ""}</div></article>'''
+{st}{f'<ul class="gal">{gal}</ul>' if gal else ""}{f'<a class="btn b-ink vid-btn" href="https://www.youtube.com/watch?v={pr["video"]}" target="_blank" rel="noopener">&#9654; Watch the video testimonial</a>' if pr.get("video") else ""}</div></article>'''
 
 # =================================================================== HOME
 def home(p):
@@ -404,7 +404,7 @@ def home(p):
 </div>
 <div class="phone-wrap rv d1"><span class="b1" aria-hidden="true"></span><span class="b2" aria-hidden="true">{shape(p, 6)}</span>
 <div class="phone"><div class="screen"><span class="notch" aria-hidden="true"></span>
-{wimg(p, "bella-after", "Bella Books Instagram profile after working with Artlify: 86.2K followers", cls="shot", sizes="320px")}
+<button type="button" class="yt-facade" data-yt="-pIeQSBXqBU" aria-label="Play the Bella Books video testimonial">{wimg(p, "bella-video-poster", "Bella Books founder video testimonial showing a NGN 92M revenue dashboard", cls="shot", sizes="320px")}<span class="yt-play" aria-hidden="true"></span><span class="yt-label">Watch her story &middot; 3:19</span></button>
 </div></div><span class="sticker" aria-hidden="true"><b>86.2K</b>followers</span></div>
 </div></section>
 
